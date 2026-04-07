@@ -1,12 +1,11 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import Link from "next/link";
-import Image from "next/image";
-import { motion, useScroll, useMotionValueEvent } from "framer-motion";
-import { Button } from "@/components/ui/Button";
+import { motion, useMotionValueEvent, useScroll } from "framer-motion";
+import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
-import { Sun, Moon } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import React from "react";
 
 const navItems = [
   {

@@ -1,7 +1,7 @@
-import { Mail, Phone, MapPin, ArrowRight, Globe, Briefcase } from "lucide-react";
-import Link from "next/link";
-import Image from "next/image";
 import { Button } from "@/components/ui/Button";
+import { ArrowRight, Mail, MapPin, Phone } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 
 export function Footer() {
   return (

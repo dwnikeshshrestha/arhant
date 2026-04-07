@@ -1,10 +1,9 @@
 "use client";
 
-import React from "react";
-import { motion } from "framer-motion";
-import { Box, Zap, Cloud, CheckCircle2, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/Button";
-import ScrollStack, { ScrollStackItem } from "../ScrollStack";
+import { motion } from "framer-motion";
+import { ArrowRight, Box, CheckCircle2, Cloud, Zap } from "lucide-react";
+import React from "react";
 
 interface Product {
   id: string;

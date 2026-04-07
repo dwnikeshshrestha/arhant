@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
-import { ShieldCheck, Users, Layers, Activity, ArrowRight } from "lucide-react";
-import Image from "next/image";
-import Lenis from "lenis";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Lenis from "lenis";
+import { Activity, ArrowRight, Layers, ShieldCheck, Users } from "lucide-react";
+import Image from "next/image";
+import { useCallback, useEffect, useRef, useState } from "react";
 // ─── Types ──────────────────────────────────────────────────────────────
 type SolutionId = "life" | "general" | "aggregator" | "micro";
 

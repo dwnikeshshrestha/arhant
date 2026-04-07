@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useRef } from "react";
-import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { ShieldCheck, Users, Layers, Activity, Server, FileText, PieChart, Bell, ArrowRight, LayoutGrid, Globe, Zap } from "lucide-react";
+import { AnimatePresence, motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { Activity, ArrowRight, Bell, Globe, Layers, LayoutGrid, Server, ShieldCheck, Users, Zap } from "lucide-react";
+import { useRef, useState } from "react";
 
 const solutions = [
   {

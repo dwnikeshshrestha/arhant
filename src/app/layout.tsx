@@ -24,7 +24,7 @@ import { cn } from "@/lib/utils";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 
-const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
+// const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 const inter = Inter({
   variable: "--font-sans", // Body font
   subsets: ["latin"],
