@@ -8,6 +8,37 @@ import { Button } from "@/components/ui/Button";
 import { useTheme } from "next-themes";
 import { Sun, Moon } from "lucide-react";
 
+const navItems = [
+  {
+    title: "About Us",
+    link: "/about",
+  },
+  {
+    title: "Solutions",
+    link: "/solutions",
+  },
+  {
+    title: "Our Work",
+    link: "/our/work",
+  },
+
+  //   {
+  //           title:  "Products",
+  //           link:"/products",
+  // },
+  //    {
+  //           title:  "Partners",
+  //           link:"/about",
+  // },
+  {
+    title: "Blog",
+    link: "/blog",
+  },
+  {
+    title: "Contact us",
+    link: "/contact/us",
+  },
+];
 export function Navbar() {
   const { scrollY } = useScroll();
   const [hidden, setHidden] = React.useState(false);
@@ -35,8 +66,11 @@ export function Navbar() {
       }}
       animate={hidden ? "hidden" : "visible"}
       transition={{ duration: 0.35, ease: "easeInOut" }}
-      className={`fixed top-0 z-50 w-full transition-all duration-300 ${scrolled ? "bg-background/80 backdrop-blur-md border-b border-border shadow-sm dark:shadow-none" : "bg-transparent md:mt-4"
-        }`}
+      className={`fixed top-0 z-50 w-full transition-all duration-300 ${
+        scrolled
+          ? "bg-background/80 backdrop-blur-md border-b border-border shadow-sm dark:shadow-none"
+          : "bg-transparent md:mt-4"
+      }`}
     >
       <div className="container mx-auto px-6 h-20 flex items-center justify-between">
         <Link href="/" className="flex items-center group">
@@ -52,13 +86,13 @@ export function Navbar() {
 
         <div className="flex items-center gap-6">
           <nav className="hidden md:flex items-center gap-8 ">
-            {["About Us", "Solutions", "Our Work", "Products", "Partners", "Blog"].map((item) => (
+            {navItems.map((item) => (
               <Link
-                key={item}
-                href={`#${item.toLowerCase().replace(" ", "-")}`}
+                key={item.link}
+                href={item.link}
                 className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors"
               >
-                {item}
+                {item.title}
               </Link>
             ))}
           </nav>
@@ -68,7 +102,11 @@ export function Navbar() {
               className="p-2 rounded-full hover:bg-foreground/10 transition-colors text-foreground"
               aria-label="Toggle theme"
             >
-              {theme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+              {theme === "dark" ? (
+                <Sun className="w-5 h-5" />
+              ) : (
+                <Moon className="w-5 h-5" />
+              )}
             </button>
           )}
         </div>

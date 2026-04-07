@@ -3,28 +3,30 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { ShieldCheck, Users, Layers, Activity, ArrowRight } from "lucide-react";
 import Image from "next/image";
-
-// ─── Data ────────────────────────────────────────────────────────────────────
-const imageMap = {
-  life: "/assets/our-solutions/lifeInsurance.png",
-  general: "/assets/our-solutions/lifeInsurance.png",
-  aggregator: "/assets/our-solutions/lifeInsurance.png",
-  micro: "/assets/our-solutions/lifeInsurance.png",
-} as const;
-
-type SolutionId = keyof typeof imageMap;
+import Lenis from "lenis";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+// ─── Types ──────────────────────────────────────────────────────────────
+type SolutionId = "life" | "general" | "aggregator" | "micro";
 
 interface Solution {
   id: SolutionId;
   title: string;
   description: string;
   icon: React.ElementType;
-  color: string;
-  glowColor: string;
+  color: string; // Tailwind gradient classes
+  glowColor: string; // CSS hex/rgb
   badge: string;
   stat1: string;
   stat2: string;
 }
+
+// ─── Data ──────────────────────────────────────────────────────────────
+const imageMap: Record<SolutionId, string> = {
+  life: "/assets/our-solutions/lifeInsurance.png",
+  general: "/assets/our-solutions/lifeInsurance.png", // different images
+  aggregator: "/assets/our-solutions/lifeInsurance.png",
+  micro: "/assets/our-solutions/lifeInsurance.png",
+};
 
 const solutions: Solution[] = [
   {
@@ -77,12 +79,11 @@ const solutions: Solution[] = [
   },
 ];
 
-// ─── Breakpoint ──────────────────────────────────────────────────────────────
 const LG_BREAKPOINT = 1024;
 
-// ─── Component ───────────────────────────────────────────────────────────────
+// ─── Component ─────────────────────────────────────────────────────────
 export function SolutionsSection() {
-  const sectionRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
   const stackRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const pillNavRef = useRef<HTMLDivElement>(null);
@@ -91,12 +92,13 @@ export function SolutionsSection() {
   const [mounted, setMounted] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
+  // ── Responsive detection ───────────────────────────────────────────
   useEffect(() => {
     setMounted(true);
-    const check = () => setIsMobile(window.innerWidth < LG_BREAKPOINT);
-    check();
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
+    const checkMobile = () => setIsMobile(window.innerWidth < LG_BREAKPOINT);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
   // Auto-scroll active pill into view on mobile
@@ -109,108 +111,110 @@ export function SolutionsSection() {
     });
   }, [activeIndex, isMobile]);
 
-  // ── Responsive values ──────────────────────────────────────────
-  const cardH = isMobile ? 380 : 520;
-  const totalScroll = isMobile ? 1400 : 2000;
+  // ── Scroll calculations ────────────────────────────────────────────
+  const cardHeight = isMobile ? 380 : 520;
+  const totalScrollDistance = isMobile ? 1400 : 2000;
   const pinOffset = isMobile ? 72 : 80;
-  const scrollPerCard = totalScroll / (solutions.length - 1);
+  const scrollStep = totalScrollDistance / (solutions.length - 1);
 
   const handleNavClick = useCallback(
-    (i: number) => {
+    (index: number) => {
       if (!stackRef.current) return;
       const rect = stackRef.current.getBoundingClientRect();
       const stackTop = rect.top + window.scrollY - pinOffset;
       window.scrollTo({
-        top: stackTop + scrollPerCard * i,
+        top: stackTop + scrollStep * index,
         behavior: "smooth",
       });
     },
-    [pinOffset, scrollPerCard]
+    [pinOffset, scrollStep],
   );
 
-  // ── GSAP + conditional Lenis ───────────────────────────────────
+  // ── GSAP + Lenis (only on desktop) ────────────────────────────────
+  const [scrollTriggerInstance, setScrollTriggerInstance] =
+    useState<ScrollTrigger | null>(null);
   useEffect(() => {
     if (!mounted) return;
 
-    let lenis: any = null;
-    let ctx: any = null;
+    let lenis: Lenis | null = null;
+    let ctx: gsap.Context | null = null;
 
-    const timer = setTimeout(async () => {
-      const gsapMod = await import("gsap");
-      const STMod = await import("gsap/ScrollTrigger");
-
-      const gsap = gsapMod.gsap ?? gsapMod.default;
-      const ScrollTrigger = STMod.ScrollTrigger ?? STMod.default;
+    const initAnimation = async () => {
+      // Dynamic imports to reduce bundle size
+      const gsapModule = await import("gsap");
+      const ScrollTriggerModule = await import("gsap/ScrollTrigger");
+      const gsap = gsapModule.gsap;
+      const ScrollTrigger = ScrollTriggerModule.ScrollTrigger;
       gsap.registerPlugin(ScrollTrigger);
 
-      // ── Lenis: ONLY on desktop ──────────────────────────────
+      // ── Lenis (desktop only) ──────────────────────────────────────
       if (!isMobile) {
-        const LenisMod = await import("lenis");
-        const LenisClass = LenisMod.default ?? LenisMod.Lenis;
-        lenis = new LenisClass({
+        const LenisModule = await import("lenis");
+        const Lenis = LenisModule.default;
+        lenis = new Lenis({
           duration: 1.2,
           easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
           smoothWheel: true,
         });
         lenis.on("scroll", ScrollTrigger.update);
-        gsap.ticker.add((time: number) => lenis.raf(time * 1000));
+        gsap.ticker.add((time: number) => lenis?.raf(time * 1000));
         gsap.ticker.lagSmoothing(0);
       }
 
-      // ── GSAP context ────────────────────────────────────────
+      // ── GSAP Context (auto-cleanup) ────────────────────────────────
       ctx = gsap.context(() => {
         const cards = cardRefs.current.filter(Boolean) as HTMLDivElement[];
-        const count = cards.length;
+        if (cards.length === 0) return;
 
-        // Clear any leftover inline styles
-        cards.forEach((card, i) => {
+        // Reset any inline styles before building timeline
+        cards.forEach((card, idx) => {
           gsap.set(card, { clearProps: "all" });
-          if (i > 0) {
+          if (idx > 0) {
             gsap.set(card, { yPercent: 100, opacity: 0 });
           }
         });
 
-        // ── Master timeline ───────────────────────────────────
+        // Master timeline
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: stackRef.current,
             start: `top top+=${pinOffset}`,
-            end: `+=${totalScroll}`,
+            end: `+=${totalScrollDistance}`,
             pin: true,
             pinSpacing: true,
             anticipatePin: 1,
             scrub: isMobile ? 0.5 : 1,
             invalidateOnRefresh: true,
-            onUpdate: (self: any) => {
+            onUpdate: (self: ScrollTrigger) => {
               const progress = self.progress;
-              const segments = count - 1;
+              const segments = cards.length - 1;
               const idx = Math.min(
-                count - 1,
-                Math.floor(progress * segments + 0.5)
+                segments,
+                Math.floor(progress * segments + 0.5),
               );
               setActiveIndex(idx);
             },
           },
         });
 
-        const seg = 1;
+        const segmentDuration = 1; // seconds
 
-        for (let i = 1; i < count; i++) {
-          const pos = (i - 1) * seg;
+        for (let i = 1; i < cards.length; i++) {
+          const insertPos = (i - 1) * segmentDuration;
 
-          // Card slides up
+          // Bring next card up
           tl.to(
             cards[i],
             {
               yPercent: 0,
               opacity: 1,
-              duration: seg,
+              duration: segmentDuration,
               ease: "power2.inOut",
             },
-            pos
+            insertPos,
           );
 
-          // Previous cards recede into the stack
+          // Push previous cards down and scale
           for (let j = 0; j < i; j++) {
             const depth = i - j;
             tl.to(
@@ -218,24 +222,30 @@ export function SolutionsSection() {
               {
                 scale: 1 - (isMobile ? 0.025 : 0.035) * depth,
                 y: -(isMobile ? 6 : 12) * depth,
-                duration: seg,
+                duration: segmentDuration,
                 ease: "power2.inOut",
               },
-              pos
+              insertPos,
             );
           }
         }
       }, stackRef);
 
+      // Force ScrollTrigger to recalculate positions
       ScrollTrigger.refresh();
-    }, 150);
+    };
+
+    initAnimation();
 
     return () => {
-      clearTimeout(timer);
+      // Cleanup GSAP context
       if (ctx) ctx.revert();
+      // Kill ScrollTrigger instances to prevent memory leaks
+      if (scrollTriggerInstance) scrollTriggerInstance.kill();
+      // Destroy Lenis
       if (lenis) lenis.destroy();
     };
-  }, [mounted, isMobile, totalScroll, pinOffset]);
+  }, [mounted, isMobile, totalScrollDistance, pinOffset]);
 
   return (
     <section
@@ -243,7 +253,7 @@ export function SolutionsSection() {
       ref={sectionRef}
       className="bg-background relative pb-24 lg:pb-32"
     >
-      {/* Ambient background glow */}
+      {/* Dynamic background glow */}
       <div
         className="pointer-events-none fixed inset-0 -z-10 transition-all duration-700"
         style={{
@@ -252,7 +262,7 @@ export function SolutionsSection() {
       />
 
       <div className="container mx-auto px-4 sm:px-6 max-w-7xl pt-20 lg:pt-32">
-        {/* ── Header ──────────────────────────────────────────────── */}
+        {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 lg:mb-20 gap-6 lg:gap-8">
           <div className="max-w-2xl">
             <div className="flex items-center gap-3 mb-4">
@@ -263,9 +273,7 @@ export function SolutionsSection() {
             </div>
             <h2 className="text-3xl sm:text-4xl md:text-6xl font-bold text-foreground leading-[1.1]">
               Transforming <br />
-              <span className="text-primary italic">
-                Insurance Ecosystems
-              </span>
+              <span className="text-primary italic">Insurance Ecosystems</span>
             </h2>
           </div>
           <div>
@@ -280,22 +288,13 @@ export function SolutionsSection() {
           </div>
         </div>
 
-        {/* ── MOBILE: Horizontal pill nav ─────────────────────────── */}
-        <div
-          className="lg:hidden sticky top-0 z-30 -mx-4 sm:-mx-6 px-4 sm:px-6 py-3 bg-background/80 backdrop-blur-lg border-b border-foreground/[0.06]"
-        >
+        {/* Mobile pill navigation (sticky) */}
+        <div className="lg:hidden sticky top-0 z-30 -mx-4 sm:-mx-6 px-4 sm:px-6 py-3 bg-background/80 backdrop-blur-lg border-b border-foreground/[0.06]">
           <div
             ref={pillNavRef}
-            className="flex gap-2 overflow-x-auto pb-1 -mb-1"
-            style={{
-              scrollbarWidth: "none",
-              msOverflowStyle: "none",
-              WebkitOverflowScrolling: "touch",
-            }}
+            className="flex gap-2 overflow-x-auto pb-1 -mb-1 scrollbar-none"
+            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
           >
-            <style jsx>{`
-              div::-webkit-scrollbar { display: none; }
-            `}</style>
             {solutions.map((sol, i) => {
               const isActive = activeIndex === i;
               const Icon = sol.icon;
@@ -304,12 +303,11 @@ export function SolutionsSection() {
                   key={sol.id}
                   ref={isActive ? activePillRef : null}
                   onClick={() => handleNavClick(i)}
-                  className={[
-                    "flex items-center gap-1.5 px-3.5 py-2 rounded-full text-[11px] font-semibold whitespace-nowrap transition-all duration-300 shrink-0",
+                  className={`flex items-center gap-1.5 px-3.5 py-2 rounded-full text-[11px] font-semibold whitespace-nowrap transition-all duration-300 shrink-0 ${
                     isActive
                       ? `bg-gradient-to-r ${sol.color} text-white shadow-lg shadow-black/10`
-                      : "bg-foreground/[0.06] text-foreground/40 active:scale-95",
-                  ].join(" ")}
+                      : "bg-foreground/[0.06] text-foreground/40 active:scale-95"
+                  }`}
                 >
                   <Icon className="w-3 h-3" />
                   {sol.title.split(" ").slice(0, 2).join(" ")}
@@ -319,10 +317,9 @@ export function SolutionsSection() {
           </div>
         </div>
 
-        {/* ── Body ────────────────────────────────────────────────── */}
+        {/* Main grid */}
         <div className="grid lg:grid-cols-12 gap-6 lg:gap-12 items-start mt-5 lg:mt-0">
-
-          {/* ── DESKTOP: Left sidebar nav ─────────────────────────── */}
+          {/* Desktop left sidebar */}
           <div className="hidden lg:block lg:col-span-4 sticky top-24 self-start space-y-2">
             {solutions.map((sol, i) => {
               const isActive = activeIndex === i;
@@ -331,61 +328,51 @@ export function SolutionsSection() {
                 <button
                   key={sol.id}
                   onClick={() => handleNavClick(i)}
-                  className={[
-                    "relative w-full group p-4 rounded-2xl text-left transition-all duration-300 overflow-hidden",
+                  className={`relative w-full group p-4 rounded-2xl text-left transition-all duration-300 overflow-hidden ${
                     isActive
                       ? "bg-card shadow-md border border-foreground/[0.08]"
-                      : "hover:bg-foreground/[0.03] border border-transparent",
-                  ].join(" ")}
+                      : "hover:bg-foreground/[0.03] border border-transparent"
+                  }`}
                 >
                   {isActive && (
                     <span
                       className={`absolute left-0 top-3 bottom-3 w-[3px] rounded-r-full bg-gradient-to-b ${sol.color}`}
                     />
                   )}
-
                   <div className="flex gap-4 items-center pl-1">
                     <div
-                      className={[
-                        "w-11 h-11 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300",
+                      className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300 ${
                         isActive
                           ? `bg-gradient-to-br ${sol.color} text-white shadow-md`
-                          : "bg-foreground/5 text-foreground/30",
-                      ].join(" ")}
+                          : "bg-foreground/5 text-foreground/30"
+                      }`}
                     >
                       <Icon className="w-5 h-5" />
                     </div>
-
                     <div className="flex-1 min-w-0">
                       <p
-                        className={[
-                          "font-bold text-sm leading-tight transition-colors",
+                        className={`font-bold text-sm leading-tight transition-colors ${
                           isActive
                             ? "text-foreground"
-                            : "text-foreground/40 group-hover:text-foreground/70",
-                        ].join(" ")}
+                            : "text-foreground/40 group-hover:text-foreground/70"
+                        }`}
                       >
                         {sol.title}
                       </p>
                       <p
-                        className={[
-                          "text-xs mt-0.5 truncate transition-colors",
-                          isActive
-                            ? "text-foreground/50"
-                            : "text-foreground/25",
-                        ].join(" ")}
+                        className={`text-xs mt-0.5 truncate transition-colors ${
+                          isActive ? "text-foreground/50" : "text-foreground/25"
+                        }`}
                       >
                         {sol.badge}
                       </p>
                     </div>
-
                     <span
-                      className={[
-                        "text-xs font-mono shrink-0 transition-colors",
+                      className={`text-xs font-mono shrink-0 transition-colors ${
                         isActive
                           ? "text-primary font-bold"
-                          : "text-foreground/20",
-                      ].join(" ")}
+                          : "text-foreground/20"
+                      }`}
                     >
                       0{i + 1}
                     </span>
@@ -393,29 +380,26 @@ export function SolutionsSection() {
                 </button>
               );
             })}
-
-            {/* Progress dots */}
             <div className="flex items-center gap-2 pt-2 pl-5">
               {solutions.map((sol, i) => (
                 <div
                   key={sol.id}
-                  className={[
-                    "rounded-full transition-all duration-500",
+                  className={`rounded-full transition-all duration-500 ${
                     activeIndex === i
                       ? `h-2 w-6 bg-gradient-to-r ${sol.color}`
-                      : "h-2 w-2 bg-foreground/15",
-                  ].join(" ")}
+                      : "h-2 w-2 bg-foreground/15"
+                  }`}
                 />
               ))}
             </div>
           </div>
 
-          {/* ── Card stack ────────────────────────────────────────── */}
+          {/* Card stack container */}
           <div className="lg:col-span-8">
             <div
               ref={stackRef}
               className="relative w-full"
-              style={{ height: cardH }}
+              style={{ height: cardHeight }}
             >
               {solutions.map((sol, i) => {
                 const Icon = sol.icon;
@@ -426,10 +410,7 @@ export function SolutionsSection() {
                       cardRefs.current[i] = el;
                     }}
                     className="absolute inset-0 will-change-transform"
-                    style={{
-                      zIndex: i + 1,
-                      transformOrigin: "top center",
-                    }}
+                    style={{ zIndex: i + 1, transformOrigin: "top center" }}
                   >
                     <div className="relative w-full h-full rounded-2xl lg:rounded-[2rem] overflow-hidden bg-card border border-foreground/[0.08] shadow-[0_30px_60px_-15px_rgba(0,0,0,0.12)]">
                       {/* Top accent stripe */}
@@ -444,6 +425,7 @@ export function SolutionsSection() {
                         fill
                         className="object-cover"
                         priority={i === 0}
+                        sizes="(max-width: 1024px) 100vw, 60vw"
                       />
 
                       {/* Dark overlay */}
@@ -465,7 +447,6 @@ export function SolutionsSection() {
                             {sol.description}
                           </p>
                         </div>
-
                         <div className="shrink-0 self-end sm:self-auto">
                           <div className="bg-white/10 backdrop-blur-md border border-white/15 rounded-xl sm:rounded-2xl px-3.5 sm:px-5 py-2 sm:py-3.5 text-right">
                             <p className="text-white font-bold text-xs sm:text-sm">
@@ -488,12 +469,11 @@ export function SolutionsSection() {
               {solutions.map((sol, i) => (
                 <div
                   key={sol.id}
-                  className={[
-                    "rounded-full transition-all duration-500",
+                  className={`rounded-full transition-all duration-500 ${
                     activeIndex === i
                       ? `h-2 w-6 bg-gradient-to-r ${sol.color}`
-                      : "h-2 w-2 bg-foreground/15",
-                  ].join(" ")}
+                      : "h-2 w-2 bg-foreground/15"
+                  }`}
                 />
               ))}
             </div>

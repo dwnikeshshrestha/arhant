@@ -13,17 +13,17 @@ import { FaqSection } from "@/components/blocks/FaqSection";
 export default function Home() {
   return (
     <main className="min-h-screen bg-background text-foreground selection:bg-primary selection:text-white">
-      <Navbar />
+      {/* <Navbar /> */}
       <HeroSection />
       <ClientsSection />
       <ProductsSection />
       <SolutionsSection />
-      <AboutSection />
+      {/* <AboutSection /> */}
       <OurWorkSection />
       <PartnersSection />
       <BlogSection />
       <FaqSection />
-      <Footer />
+      {/* <Footer /> */}
     </main>
   );
 }
