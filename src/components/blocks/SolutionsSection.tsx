@@ -425,7 +425,7 @@ export function SolutionsSection() {
                         src={imageMap[sol.id]}
                         alt={sol.title}
                         fill
-                        className="object-cover"
+                        className="object-cover object-top"
                         priority={i === 0}
                         sizes="(max-width: 1024px) 100vw, 60vw"
                       />
@@ -480,6 +480,10 @@ export function SolutionsSection() {
               ))}
             </div>
           </div>
+        </div>
+
+        <div>
+          
         </div>
       </ContainerLayout>
     </section>

@@ -1,3 +1,4 @@
+import { AboutSection } from "@/components/blocks/AboutSection";
 import { BlogSection } from "@/components/blocks/BlogSection";
 import { ClientsSection } from "@/components/blocks/ClientsSection";
 import { FaqSection } from "@/components/blocks/FaqSection";
@@ -14,7 +15,7 @@ export default function Home() {
       {/* <Navbar /> */}
       <HeroSection />
       <ClientsSection />
-      <ProductsSection />
+      {/* <ProductsSection /> */}
       <SolutionsSection />
       {/* <AboutSection /> */}
       <OurWorkSection />

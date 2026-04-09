@@ -6,7 +6,7 @@ import ContainerLayout from "./ContainerLayout";
 
 export function Footer() {
   return (
-    <footer className="bg-background p-10 border-t border-foreground/10">
+    <footer className="bg-background  border-t border-foreground/10">
       <ContainerLayout>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
           <div className="md:col-span-1">
