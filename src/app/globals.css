@@ -24,7 +24,7 @@
   --color-input: hsl(var(--input));
   --color-ring: hsl(var(--ring));
   
-  --font-sans: var(--font-rubik);
+  --font-sans: var(--font-mona-sans);
   --font-heading: var(--font-brawler);
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) * 0.8);

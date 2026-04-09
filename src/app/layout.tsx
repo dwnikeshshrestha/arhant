@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Brawler, Rubik, Geist, Inter } from "next/font/google";
+import { Brawler, Mona_Sans } from "next/font/google";
 import "./globals.css";
 
 const brawler = Brawler({
@@ -8,9 +8,10 @@ const brawler = Brawler({
   subsets: ["latin"],
 });
 
-const rubik = Rubik({
-  variable: "--font-rubik",
+const monaSans = Mona_Sans({
+  variable: "--font-mona-sans",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -24,12 +25,6 @@ import { cn } from "@/lib/utils";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 
-// const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
-const inter = Inter({
-  variable: "--font-sans", // Body font
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-});
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -42,8 +37,7 @@ export default function RootLayout({
       className={cn(
         "h-full",
         "antialiased",
-        rubik.variable,
-        inter.variable,
+        monaSans.variable,
         brawler.variable,
       )}
     >
@@ -53,7 +47,9 @@ export default function RootLayout({
           defaultTheme="light"
           enableSystem={false}
         >
-          <main className="min-h-screen bg-background text-foreground selection:bg-primary selection:text-white">
+          <main
+            className="min-h-screen bg-background text-foreground selection:bg-primary selection:text-white"
+          >
             <Navbar />
 
             {children}

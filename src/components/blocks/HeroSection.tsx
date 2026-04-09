@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/Button";
 import { ArrowRight, Activity, Shield, Users } from "lucide-react";
 import { useEffect, useState } from "react";
+import ContainerLayout from "../layout/ContainerLayout";
 
 export function HeroSection() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -20,7 +21,7 @@ export function HeroSection() {
   }, []);
 
   return (
-    <section className="font-sans relative min-h-screen flex items-center justify-center overflow-hidden bg-background pt-20">
+    <ContainerLayout className="relative min-h-screen flex items-center justify-center overflow-hidden ">
       {/* Dynamic Cursor Glow Background */}
       <motion.div
         animate={{
@@ -31,7 +32,7 @@ export function HeroSection() {
         className="absolute w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] pointer-events-none hidden md:block"
       />
 
-      <div className="container relative z-10 mx-auto px-6 w-full flex flex-col lg:flex-row items-center gap-16">
+      <div className="relative z-10  w-full flex flex-col lg:flex-row items-center gap-16">
         {/* Left Side: Typography */}
         <div className="flex-1 text-left">
           {/* <motion.div
@@ -50,9 +51,14 @@ export function HeroSection() {
             transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
             className="text-5xl md:text-7xl lg:text-[5rem] font-heading font-extrabold text-foreground tracking-tight leading-[1.1] mb-6"
           >
-            Leading Insurance <br />
+            Powering Nepal&apos;s
+            <br />
+            <span className="text-primary italic">Insurance</span>
+            <br />
+            Industry with Smart Tech
+            {/* Leading Insurance <br />
             Software purely <br />
-            in <span className="text-primary italic">Nepal.</span>
+            in <span className="text-primary italic">Nepal.</span> */}
           </motion.h1>
 
           <motion.p
@@ -61,9 +67,10 @@ export function HeroSection() {
             transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
             className="text-lg md:text-xl text-foreground/70 mb-10 max-w-xl font-sans leading-relaxed"
           >
-            Empowering life, general, and micro insurance companies with highly
-            scalable, customizable, and comprehensive operations management
-            platforms.
+            Arhant Solutions delivers enterprise-grade insurance management
+            systems — automating operations, accelerating digital
+            transformation, and building complete insurance ecosystems trusted
+            by 26+ insurance companies across Nepal.
           </motion.p>
 
           <motion.div
@@ -193,6 +200,6 @@ export function HeroSection() {
           </motion.div>
         </div>
       </div>
-    </section>
+    </ContainerLayout>
   );
 }

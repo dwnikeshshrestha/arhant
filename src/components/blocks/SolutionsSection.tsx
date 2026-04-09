@@ -5,6 +5,7 @@ import Lenis from "lenis";
 import { Activity, ArrowRight, Layers, ShieldCheck, Users } from "lucide-react";
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
+import ContainerLayout from "../layout/ContainerLayout";
 // ─── Types ──────────────────────────────────────────────────────────────
 type SolutionId = "life" | "general" | "aggregator" | "micro";
 
@@ -112,7 +113,8 @@ export function SolutionsSection() {
   }, [activeIndex, isMobile]);
 
   // ── Scroll calculations ────────────────────────────────────────────
-  const cardHeight = isMobile ? 380 : 520;
+  const cardHeight = isMobile ? 380 : 450;
+  // const cardHeight = isMobile ? 380 : 520;
   const totalScrollDistance = isMobile ? 1400 : 2000;
   const pinOffset = isMobile ? 72 : 80;
   const scrollStep = totalScrollDistance / (solutions.length - 1);
@@ -261,7 +263,7 @@ export function SolutionsSection() {
         }}
       />
 
-      <div className="container mx-auto px-4 sm:px-6 max-w-7xl pt-20 lg:pt-32">
+      <ContainerLayout>
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 lg:mb-20 gap-6 lg:gap-8">
           <div className="max-w-2xl">
@@ -271,7 +273,7 @@ export function SolutionsSection() {
                 Our Solutions
               </span>
             </div>
-            <h2 className="text-3xl sm:text-4xl md:text-6xl font-bold text-foreground leading-[1.1]">
+            <h2 className="text-3xl sm:text-4xl md:text-6xl font-bold text-foreground leading-[1.1] font-heading">
               Transforming <br />
               <span className="text-primary italic">Insurance Ecosystems</span>
             </h2>
@@ -367,7 +369,7 @@ export function SolutionsSection() {
                         {sol.badge}
                       </p>
                     </div>
-                    <span
+                    {/* <span
                       className={`text-xs font-mono shrink-0 transition-colors ${
                         isActive
                           ? "text-primary font-bold"
@@ -375,7 +377,7 @@ export function SolutionsSection() {
                       }`}
                     >
                       0{i + 1}
-                    </span>
+                    </span> */}
                   </div>
                 </button>
               );
@@ -479,7 +481,7 @@ export function SolutionsSection() {
             </div>
           </div>
         </div>
-      </div>
+      </ContainerLayout>
     </section>
   );
 }

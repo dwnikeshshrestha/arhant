@@ -34,8 +34,8 @@ const navItems = [
     link: "/blog",
   },
   {
-    title: "Contact us",
-    link: "/contact/us",
+    title: "Contact",
+    link: "/contact-us",
   },
 ];
 export function Navbar() {
@@ -68,17 +68,27 @@ export function Navbar() {
       className={`fixed top-0 z-50 w-full transition-all duration-300 ${
         scrolled
           ? "bg-background/80 backdrop-blur-md border-b border-border shadow-sm dark:shadow-none"
-          : "bg-transparent md:mt-4"
+          : "bg-transparent md:py-4"
       }`}
     >
       <div className="container mx-auto px-6 h-20 flex items-center justify-between">
         <Link href="/" className="flex items-center group">
           <Image
-            src="/Logo.png"
+            src="/arhant-logo-black-new.png"
             alt="Arhant Solutions Logo"
             width={160}
             height={50}
-            className="h-10 w-auto object-contain transition-transform group-hover:scale-105 dark:brightness-0 dark:invert"
+            className="h-12 w-auto object-contain transition-transform group-hover:scale-105 block dark:hidden"
+            priority
+          />
+
+          {/* Dark mode logo */}
+          <Image
+            src="/arhant-logo-white.png"
+            alt="Arhant Solutions Logo"
+            width={160}
+            height={50}
+            className="h-12 w-auto object-contain transition-transform group-hover:scale-105 hidden dark:block"
             priority
           />
         </Link>

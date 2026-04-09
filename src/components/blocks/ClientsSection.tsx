@@ -42,7 +42,7 @@ export function ClientsSection() {
 
   return (
     <section className="py-20 bg-background border-y border-border overflow-hidden drop-shadow-lg ">
-      <div className="container mx-auto px-6 max-w-6xl text-center mb-10">
+      <div className="container mx-auto px-6 lg:px-8 max-w-6xl text-center mb-10">
         <motion.h3
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}

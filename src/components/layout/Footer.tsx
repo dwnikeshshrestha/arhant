@@ -2,24 +2,37 @@ import { Button } from "@/components/ui/Button";
 import { ArrowRight, Mail, MapPin, Phone } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import ContainerLayout from "./ContainerLayout";
 
 export function Footer() {
   return (
-    <footer className="bg-background pt-20 pb-10 border-t border-foreground/10">
-      <div className="container mx-auto px-6 max-w-6xl">
+    <footer className="bg-background p-10 border-t border-foreground/10">
+      <ContainerLayout>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
           <div className="md:col-span-1">
             <Link href="/" className="inline-block mb-6 group">
               <Image
-                src="/Logo.png"
+                src="/arhant-logo-black-new.png"
                 alt="Arhant Solutions Logo"
                 width={160}
                 height={50}
-                className="h-10 w-auto object-contain transition-transform group-hover:scale-105 dark:brightness-0 dark:invert"
+                className="h-12 w-auto object-contain transition-transform group-hover:scale-105 block dark:hidden"
+                priority
+              />
+
+              {/* Dark mode logo */}
+              <Image
+                src="/arhant-logo-white.png"
+                alt="Arhant Solutions Logo"
+                width={160}
+                height={50}
+                className="h-12 w-auto object-contain transition-transform group-hover:scale-105 hidden dark:block"
+                priority
               />
             </Link>
             <p className="text-foreground/60 font-sans text-sm leading-relaxed mb-6">
-              The Best Insurance Software Provider in Nepal, delivering robust, flexible, and scalable digital solutions.
+              The Best Insurance Software Provider in Nepal, delivering robust,
+              flexible, and scalable digital solutions.
             </p>
             <div className="flex items-center gap-3">
               <a
@@ -59,7 +72,13 @@ export function Footer() {
                   <circle cx={76} cy={76} r={76} fill="#0A66C2" />
                   <g fill="#fff">
                     <path d="M59 48.37A10.38 10.38 0 1 1 48.63 38 10.38 10.38 0 0 1 59 48.37z" />
-                    <rect width="16.06" height="50.93" x="40.6" y="63.07" rx="2.57" />
+                    <rect
+                      width="16.06"
+                      height="50.93"
+                      x="40.6"
+                      y="63.07"
+                      rx="2.57"
+                    />
                     <path d="M113.75 89.47v22.17a2.36 2.36 0 0 1-2.36 2.36H99.67a2.36 2.36 0 0 1-2.36-2.36V90.16c0-3.21.93-14-8.38-14-7.22 0-8.69 7.42-9 10.75v24.78a2.36 2.36 0 0 1-2.34 2.31H66.25a2.35 2.35 0 0 1-2.36-2.36v-46.2a2.36 2.36 0 0 1 2.36-2.37h11.34A2.37 2.37 0 0 1 80 65.44v4c2.68-4 6.66-7.12 15.13-7.12 18.73-.01 18.62 17.52 18.62 27.15z" />
                   </g>
                 </svg>
@@ -68,18 +87,57 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="text-foreground font-heading font-bold mb-6">Quick Links</h4>
+            <h4 className="text-foreground font-heading font-bold mb-6">
+              Quick Links
+            </h4>
             <ul className="space-y-3 font-sans text-sm text-foreground/60">
-              <li><Link href="#about-us" className="hover:text-primary transition-colors">About Us</Link></li>
-              <li><Link href="#solutions" className="hover:text-primary transition-colors">Our Solutions</Link></li>
-              <li><Link href="#products" className="hover:text-primary transition-colors">Products</Link></li>
-              <li><Link href="#partners" className="hover:text-primary transition-colors">Partners</Link></li>
-              <li><Link href="#blog" className="hover:text-primary transition-colors">Blog & Articles</Link></li>
+              <li>
+                <Link
+                  href="#about-us"
+                  className="hover:text-primary transition-colors"
+                >
+                  About Us
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="#solutions"
+                  className="hover:text-primary transition-colors"
+                >
+                  Our Solutions
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="#products"
+                  className="hover:text-primary transition-colors"
+                >
+                  Products
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="#partners"
+                  className="hover:text-primary transition-colors"
+                >
+                  Partners
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="#blog"
+                  className="hover:text-primary transition-colors"
+                >
+                  Blog & Articles
+                </Link>
+              </li>
             </ul>
           </div>
 
           <div>
-            <h4 className="text-foreground font-heading font-bold mb-6">Contact Us</h4>
+            <h4 className="text-foreground font-heading font-bold mb-6">
+              Contact Us
+            </h4>
             <ul className="space-y-4 font-sans text-sm text-foreground/60">
               <li className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 text-primary shrink-0" />
@@ -91,13 +149,20 @@ export function Footer() {
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="w-5 h-5 text-primary shrink-0" />
-                <a href="mailto:info@arhant.com.np" className="hover:text-primary transition-colors">info@arhant.com.np</a>
+                <a
+                  href="mailto:info@arhant.com.np"
+                  className="hover:text-primary transition-colors"
+                >
+                  info@arhant.com.np
+                </a>
               </li>
             </ul>
           </div>
 
           <div>
-            <h4 className="text-foreground font-heading font-bold mb-6">Newsletter</h4>
+            <h4 className="text-foreground font-heading font-bold mb-6">
+              Newsletter
+            </h4>
             <p className="text-foreground/60 font-sans text-sm mb-4">
               Subscribe to get the latest updates on insurance tech.
             </p>
@@ -116,14 +181,19 @@ export function Footer() {
 
         <div className="pt-8 border-t border-foreground/10 text-center flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-foreground/40 text-sm font-sans">
-            &copy; {new Date().getFullYear()} Arhant Solutions Pvt. Ltd. All rights reserved.
+            &copy; {new Date().getFullYear()} Arhant Solutions Pvt. Ltd. All
+            rights reserved.
           </p>
-          <a href="http://www.arhant.com.np" target="_blank" rel="noopener noreferrer" className="text-foreground/40 hover:text-foreground transition-colors text-sm font-sans">
+          <a
+            href="http://www.arhant.com.np"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-foreground/40 hover:text-foreground transition-colors text-sm font-sans"
+          >
             www.arhant.com.np
           </a>
         </div>
-      </div>
+      </ContainerLayout>
     </footer>
   );
 }
-

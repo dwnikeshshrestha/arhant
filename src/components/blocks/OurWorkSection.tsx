@@ -3,6 +3,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { ExternalLink, ArrowUpRight } from "lucide-react";
+import ContainerLayout from "../layout/ContainerLayout";
 
 interface Project {
   id: string;
@@ -174,7 +175,7 @@ export function OurWorkSection() {
       <div className="absolute -top-40 -right-40 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute -bottom-40 -left-40 w-[400px] h-[400px] bg-primary/3 rounded-full blur-[100px] pointer-events-none" />
 
-      <div className="container mx-auto px-6 max-w-6xl relative z-10">
+      <ContainerLayout>
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
           <div>
@@ -220,7 +221,7 @@ export function OurWorkSection() {
             <ProjectCard project={projects[3]} index={3} />
           </div>
         </div>
-      </div>
+      </ContainerLayout>
     </section>
   );
 }

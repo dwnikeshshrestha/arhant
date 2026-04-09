@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import ContainerLayout from "../layout/ContainerLayout";
 
 export function BlogSection() {
   const blogs = [
@@ -27,7 +28,7 @@ export function BlogSection() {
 
   return (
     <section id="blog" className="py-24 bg-background relative">
-      <div className="container mx-auto px-6 max-w-6xl">
+      <ContainerLayout>
         <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
           <div>
             <motion.h2
@@ -77,7 +78,7 @@ export function BlogSection() {
             </motion.article>
           ))}
         </div>
-      </div>
+      </ContainerLayout>
     </section>
   );
 }

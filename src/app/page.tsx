@@ -6,10 +6,11 @@ import { OurWorkSection } from "@/components/blocks/OurWorkSection";
 import { PartnersSection } from "@/components/blocks/PartnersSection";
 import { ProductsSection } from "@/components/blocks/ProductsSection";
 import { SolutionsSection } from "@/components/blocks/SolutionsSection";
+import ContainerLayout from "@/components/layout/ContainerLayout";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-background text-foreground selection:bg-primary selection:text-white">
+    <>
       {/* <Navbar /> */}
       <HeroSection />
       <ClientsSection />
@@ -21,6 +22,7 @@ export default function Home() {
       <BlogSection />
       <FaqSection />
       {/* <Footer /> */}
-    </main>
+
+    </>
   );
 }
