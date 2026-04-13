@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import ContainerLayout from "../layout/ContainerLayout";
 import { HoverEffect } from "../ui/card-hover-effect";
 import { SectionBadge } from "@/lib/helperComponent";
+import DescriptionTypography from "../DescriptionTypography";
 
 // ─── Data ──────────────────────────────────────────────────────────────────────
 
@@ -197,7 +198,7 @@ export function InsuranceClientsSection() {
   const primaryBlue = "hsl(217 91% 55%)";
 
   return (
-    <section
+    <ContainerLayout
       id="insurance-clients"
       className="relative bg-background overflow-hidden"
     >
@@ -212,7 +213,7 @@ export function InsuranceClientsSection() {
           <div className="text-center max-w-2xl mx-auto mb-12">
             <SectionBadge
               label="General Insurance Clients"
-              color={primaryOrange}
+             
               centered
             />
             <motion.h2
@@ -226,17 +227,18 @@ export function InsuranceClientsSection() {
               <span className="text-primary">out of 18</span> non-life insurers
               rely on <span className="italic">iEnsure General</span>
             </motion.h2>
-            <motion.p
+            <motion.div
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.5, delay: 0.15 }}
-              className="text-foreground/60 text-base leading-relaxed"
             >
-              Including micro-insurance companies, our platform powers the
-              majority of Nepal&apos;s non-life insurance market — from policy
-              administration to claims automation.
-            </motion.p>
+              <DescriptionTypography className="mb-4">
+                Including micro-insurance companies, our platform powers the
+                majority of Nepal&apos;s non-life insurance market — from policy
+                administration to claims automation.
+              </DescriptionTypography>
+            </motion.div>
           </div>
 
           {/* Stats */}
@@ -268,7 +270,7 @@ export function InsuranceClientsSection() {
           <div className="text-center max-w-2xl mx-auto mb-12">
             <SectionBadge
               label="Life Insurance Clients"
-              color={primaryBlue}
+              
               centered
             />
             <motion.h2
@@ -278,20 +280,21 @@ export function InsuranceClientsSection() {
               transition={{ duration: 0.6, ease: "easeOut" }}
               className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-foreground leading-[1.1] mb-6"
             >
-              <AnimatedCounter target={9} /> <span>leading</span> life insurers
+              <AnimatedCounter target={9} /> <span className="text-primary">leading</span> life insurers
               trust <span className="italic">iEnsure Life</span>
             </motion.h2>
-            <motion.p
+            <motion.div
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.5, delay: 0.15 }}
-              className="text-foreground/60 text-base leading-relaxed"
             >
-              Trusted by nine leading life insurance companies for core
-              operations — from policy issuance and actuarial reporting to
-              claims settlement and compliance.
-            </motion.p>
+              <DescriptionTypography className="mb-4">
+                Trusted by nine leading life insurance companies for core
+                operations — from policy issuance and actuarial reporting to
+                claims settlement and compliance.
+              </DescriptionTypography>
+            </motion.div>
           </div>
 
           <div className="max-w-3xl mx-auto mb-12">
@@ -322,21 +325,15 @@ export function InsuranceClientsSection() {
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.5 }}
           >
-            <div className="flex items-center justify-center gap-3 mb-4">
-              <div className="w-8 h-[2px] bg-primary rounded-full" />
-              <span className="text-primary text-xs font-bold uppercase tracking-widest">
-                Ecosystem
-              </span>
-              <div className="w-8 h-[2px] bg-primary rounded-full" />
-            </div>
+            <SectionBadge label="Ecosystem"  centered />
             <h2 className="text-3xl md:text-5xl font-heading font-bold text-foreground leading-tight mb-6">
               Technology <span className="text-primary italic">Partners</span>
             </h2>
-            <p className="text-foreground/60 text-base leading-relaxed">
+            <DescriptionTypography className="mb-4 text-center mx-auto">
               We integrate with Nepal&apos;s leading payment gateways, financial
               infrastructure providers, and technology platforms to deliver a
               seamless insurance ecosystem.
-            </p>
+            </DescriptionTypography>
           </motion.div>
         </div>
 
@@ -380,6 +377,6 @@ export function InsuranceClientsSection() {
           className="mt-12 h-px bg-gradient-to-r from-transparent via-border to-transparent origin-center"
         />
       </ContainerLayout>
-    </section>
+    </ContainerLayout>
   );
 }

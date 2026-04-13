@@ -5,6 +5,8 @@ import { Target, Lightbulb } from "lucide-react";
 import Image from "next/image";
 import MissionSection from "./MissionSection";
 import HeadingTypography from "../HeadingTypography";
+import ContainerLayout from "../layout/ContainerLayout";
+import DescriptionTypography from "../DescriptionTypography";
 
 export function AboutSection() {
   const containerVariants = {
@@ -23,9 +25,9 @@ export function AboutSection() {
   };
 
   return (
-    <section
+    <ContainerLayout
       id="about-us"
-      className="py-24 bg-background relative overflow-hidden"
+      className="bg-background relative overflow-hidden"
     >
       {/* Subtle background glow */}
       {/* <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 bg-primary/20 blur-[120px] rounded-full pointer-events-none" /> */}
@@ -56,20 +58,20 @@ export function AboutSection() {
               <span className="text-primary italic">Nepal&apos;s</span> IT
               Mastery to the World.
             </HeadingTypography>
-            <div className="space-y-6 text-foreground/70 font-sans leading-relaxed text-lg">
-              <p>
+            <div className="space-y-6">
+              <DescriptionTypography>
                 Arhant Solutions was established with the objective of
                 introducing Nepal’s highly matured IT execution capability to
                 the world. We are a rapidly expanding IT service company with
                 the goal of assisting clients with the deployment and use of
                 their enterprises.
-              </p>
-              <p>
+              </DescriptionTypography>
+              <DescriptionTypography>
                 We are devoted to offering services, mostly in the area of
                 insurance, that assist our clients in thriving in a world that
                 is always changing since we have a great belief in advancement,
                 growth, and opportunity.
-              </p>
+              </DescriptionTypography>
             </div>
           </motion.div>
 
@@ -130,6 +132,6 @@ export function AboutSection() {
           <MissionSection />
         </motion.div>
       </div>
-    </section>
+    </ContainerLayout>
   );
 }

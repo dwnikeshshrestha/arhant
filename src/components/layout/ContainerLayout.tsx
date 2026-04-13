@@ -1,17 +1,25 @@
 import { cn } from "@/lib/utils";
-import React, { ReactNode } from "react";
-interface ContainerLayoutProps {
+import React, { ReactNode, forwardRef } from "react";
+
+interface ContainerLayoutProps extends React.HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
   className?: string;
+  innerClassName?: string;
+  backgroundElements?: ReactNode;
 }
-function ContainerLayout({ children, className }: ContainerLayoutProps) {
-  return (
-    <section
-      className={cn("container mx-auto py-20 font-sans  px-6 lg:px-8 ", className)}
-    >
-      {children}
-    </section>
-  );
-}
+
+const ContainerLayout = forwardRef<HTMLElement, ContainerLayoutProps>(
+  ({ children, className, innerClassName, backgroundElements, ...props }, ref) => {
+    return (
+      <section ref={ref} className={cn("w-full py-24 scroll-mt-24 font-sans", className)} {...props}>
+        {backgroundElements}
+        <div className={cn("container mx-auto px-6 lg:px-8", innerClassName)}>
+          {children}
+        </div>
+      </section>
+    );
+  }
+);
+ContainerLayout.displayName = "ContainerLayout";
 
 export default ContainerLayout;

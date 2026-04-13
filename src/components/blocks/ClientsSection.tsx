@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import ContainerLayout from "../layout/ContainerLayout";
 
 export function ClientsSection() {
   const clients = [
@@ -41,8 +42,8 @@ export function ClientsSection() {
   const duplicatedClients = [...clients, ...clients];
 
   return (
-    <section className="py-20 bg-background border-y border-border overflow-hidden drop-shadow-lg ">
-      <div className="container mx-auto px-6 lg:px-8 max-w-6xl text-center mb-10">
+    <ContainerLayout className="bg-background border-y border-border overflow-hidden drop-shadow-lg !py-16">
+      <div className="max-w-6xl mx-auto text-center mb-10">
         <motion.h3
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -77,6 +78,6 @@ export function ClientsSection() {
           ))}
         </div>
       </div>
-    </section>
+    </ContainerLayout>
   );
 }

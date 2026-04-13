@@ -4,6 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { ExternalLink, ArrowUpRight } from "lucide-react";
 import ContainerLayout from "../layout/ContainerLayout";
+import DescriptionTypography from "../DescriptionTypography";
 
 interface Project {
   id: string;
@@ -132,14 +133,13 @@ bg-white/20 backdrop-blur-md text-white border border-white/30 shadow-md">
             {project.title}
           </h3>
 
-          {/* Description — fades in on hover */}
-          <p
-            className={`text-white/70 font-sans leading-relaxed mb-4 max-h-0 group-hover:max-h-[120px] opacity-0 group-hover:opacity-100 overflow-hidden transition-all duration-500 ease-out ${
+          <DescriptionTypography
+            className={`mb-4 max-h-0 group-hover:max-h-[120px] opacity-0 group-hover:opacity-100 overflow-hidden transition-all duration-500 ease-out text-white/70 ${
               featured ? "text-sm md:text-base" : "text-sm"
             }`}
           >
             {project.description}
-          </p>
+          </DescriptionTypography>
 
           {/* Tags */}
           <div className="flex flex-wrap gap-2 mb-4 max-h-0 group-hover:max-h-[60px] opacity-0 group-hover:opacity-100 overflow-hidden transition-all duration-500 delay-75 ease-out">
@@ -171,9 +171,9 @@ bg-white/20 backdrop-blur-md text-white border border-white/30 shadow-md">
 
 export function OurWorkSection() {
   return (
-    <section
+    <ContainerLayout
       id="our-work"
-      className="py-24 md:py-32 relative overflow-hidden bg-background"
+      className="relative overflow-hidden bg-background"
     >
       {/* Large Background Typography */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
@@ -186,9 +186,8 @@ export function OurWorkSection() {
       <div className="absolute -top-40 -right-40 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute -bottom-40 -left-40 w-[400px] h-[400px] bg-primary/3 rounded-full blur-[100px] pointer-events-none" />
 
-      <ContainerLayout>
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16 relative z-10">
           <div>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -208,16 +207,18 @@ export function OurWorkSection() {
               </h2>
             </motion.div>
           </div>
-          <motion.p
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.15 }}
-            className="text-foreground/60 max-w-md text-base font-sans leading-relaxed"
+            className="max-w-md"
           >
-            Explore how we have transformed insurance organizations with
-            cutting-edge software ecosystems and digital platforms.
-          </motion.p>
+            <DescriptionTypography>
+              Explore how we have transformed insurance organizations with
+              cutting-edge software ecosystems and digital platforms.
+            </DescriptionTypography>
+          </motion.div>
         </div>
 
         {/* Bento Grid */}
@@ -234,7 +235,6 @@ export function OurWorkSection() {
             <ProjectCard project={projects[3]} index={3} />
           </div>
         </div>
-      </ContainerLayout>
-    </section>
+    </ContainerLayout>
   );
 }

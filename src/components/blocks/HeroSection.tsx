@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/Button";
 import { ArrowRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import ContainerLayout from "../layout/ContainerLayout";
+import DescriptionTypography from "../DescriptionTypography";
 
 export function HeroSection() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -18,17 +20,18 @@ export function HeroSection() {
   }, []);
 
   return (
-    <section className="relative pt-20 h-screen overflow-hidden font-sans">
-      {/* Cursor glow */}
-      <motion.div
-        animate={{ x: mousePosition.x - 300, y: mousePosition.y - 300 }}
-        transition={{ type: "tween", ease: "backOut", duration: 1 }}
-        className="absolute w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] pointer-events-none hidden md:block"
-      />
-
-      {/* Same horizontal container as every other section */}
-      <div className="container mx-auto px-6 lg:px-8 h-full flex items-center">
-        <div className="w-full h-[85%] flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
+    <ContainerLayout 
+      className="relative h-screen overflow-hidden !py-0"
+      innerClassName="h-full flex items-center pt-20"
+      backgroundElements={
+        <motion.div
+          animate={{ x: mousePosition.x - 300, y: mousePosition.y - 300 }}
+          transition={{ type: "tween", ease: "backOut", duration: 1 }}
+          className="absolute w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] pointer-events-none hidden md:block z-0"
+        />
+      }
+    >
+      <div className="w-full h-[85%] flex flex-col lg:flex-row items-center gap-12 lg:gap-16 relative z-10 pt-16">
 
           {/* ── Left: content ── */}
           <div className="flex flex-col justify-center flex-1">
@@ -45,16 +48,13 @@ export function HeroSection() {
               Industry with Smart Tech
             </motion.h1>
 
-            <motion.p
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
-              className="text-base md:text-lg text-foreground/65 mb-8 max-w-md leading-relaxed"
+            <DescriptionTypography
+              className="mb-8 max-w-md"
             >
               Enterprise-grade insurance management systems trusted by 26+
               companies — automating operations and accelerating digital
               transformation across Nepal.
-            </motion.p>
+            </DescriptionTypography>
 
             {/* CTA */}
             <motion.div
@@ -153,7 +153,6 @@ export function HeroSection() {
           </div>
 
         </div>
-      </div>
-    </section>
+    </ContainerLayout>
   );
 }

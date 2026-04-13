@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/Button";
 import { motion } from "framer-motion";
 import { ArrowRight, Box, CheckCircle2, Cloud, Zap } from "lucide-react";
 import React from "react";
+import ContainerLayout from "../layout/ContainerLayout";
+import DescriptionTypography from "../DescriptionTypography";
 
 interface Product {
   id: string;
@@ -64,15 +66,12 @@ const products: Product[] = [
 
 export function ProductsSection() {
   return (
-    <section id="products" className="py-32 relative bg-background overflow-hidden">
+    <ContainerLayout id="products" className="relative bg-background overflow-hidden !py-32">
       {/* Background Ornaments */}
-
-
 
       <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] -z-10" />
       <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-primary/5 rounded-full blur-[100px] -z-10" />
 
-      <div className="container mx-auto px-6 ">
         <div className="text-center mb-20 relative">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -86,9 +85,9 @@ export function ProductsSection() {
             <h2 className="text-4xl md:text-6xl font-heading font-bold text-foreground">
               Built for <span className="text-primary italic">Modern Insurers</span>
             </h2>
-            <p className="text-foreground/60 max-w-2xl mx-auto text-lg font-sans mt-2">
+            <DescriptionTypography className="max-w-2xl mx-auto mt-2">
               Transforming traditional insurance operations into data-driven, customer-centric digital experiences with our specialized IEnsure product suite.
-            </p>
+            </DescriptionTypography>
           </motion.div>
         </div>
 
@@ -159,7 +158,6 @@ export function ProductsSection() {
             </motion.div>
           ))}
         </div>
-      </div>
-    </section>
+    </ContainerLayout>
   );
 }

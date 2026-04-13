@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import ContainerLayout from "../layout/ContainerLayout";
 
 const PARTNERS = [
   "/assets/tech-partner/DanLogo.png",
@@ -16,8 +17,8 @@ const PARTNERS = [
 
 export function PartnersSection() {
   return (
-    <section id="partners" className="py-20 bg-background border-y border-foreground/5 overflow-hidden">
-      <div className="container mx-auto px-6 max-w-6xl text-center mb-12">
+    <ContainerLayout id="partners" className="bg-background border-y border-foreground/5 overflow-hidden !py-20">
+      <div className="max-w-6xl mx-auto text-center mb-12">
         <motion.p
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -53,7 +54,7 @@ export function PartnersSection() {
           ))}
         </div>
       </div>
-    </section>
+    </ContainerLayout>
   );
 }
 

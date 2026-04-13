@@ -6,6 +6,7 @@ import { Activity, ArrowRight, Layers, ShieldCheck, Users } from "lucide-react";
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import ContainerLayout from "../layout/ContainerLayout";
+import DescriptionTypography from "../DescriptionTypography";
 
 // ─── Types ──────────────────────────────────────────────────────────────
 type SolutionId = "life" | "general" | "aggregator" | "micro";
@@ -267,10 +268,10 @@ export function SolutionsSection() {
   }, [mounted, isMobile, totalScrollDistance, pinOffset]);
 
   return (
-    <section
+    <ContainerLayout
       id="solutions"
       ref={sectionRef}
-      className="bg-background relative pb-24 lg:pb-32"
+      className="bg-background relative !pb-24 lg:!pb-32"
     >
       {/* Dynamic background glow */}
       <div
@@ -279,8 +280,6 @@ export function SolutionsSection() {
           background: `radial-gradient(ellipse 65% 50% at 75% 50%, ${solutions[activeIndex].glowColor}18 0%, transparent 65%)`,
         }}
       />
-
-      <ContainerLayout>
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 lg:mb-20 gap-6 lg:gap-8">
           <div className="max-w-2xl">
@@ -296,10 +295,10 @@ export function SolutionsSection() {
             </h2>
           </div>
           <div>
-            <p className="text-foreground/60 max-w-md text-base lg:text-lg mb-4 lg:mb-6">
+            <DescriptionTypography className="max-w-md lg:text-lg mb-4 lg:mb-6">
               Our comprehensive platforms are engineered to solve the most
               complex challenges in modern insurance.
-            </p>
+            </DescriptionTypography>
             <button className="flex items-center gap-2 text-foreground font-semibold group hover:text-primary transition-colors">
               Explore All Solutions{" "}
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -528,7 +527,6 @@ export function SolutionsSection() {
             </div>
           </div>
         </div>
-      </ContainerLayout>
-    </section>
+    </ContainerLayout>
   );
 }

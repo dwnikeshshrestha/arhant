@@ -1,10 +1,8 @@
 export function SectionBadge({
   label,
-  color,
   centered = false,
 }: {
   label: string;
-  color: string;
   centered?: boolean;
 }) {
   return (

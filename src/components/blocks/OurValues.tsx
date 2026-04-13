@@ -1,4 +1,6 @@
 import HeadingTypography from "../HeadingTypography";
+import ContainerLayout from "../layout/ContainerLayout";
+import DescriptionTypography from "../DescriptionTypography";
 
 const values = [
   {
@@ -35,7 +37,7 @@ const values = [
 
 export default function OurValues() {
   return (
-    <section>
+    <ContainerLayout>
       {/* Header */}
       <div className="mb-12">
           <h2 className="text-sm font-bold tracking-widest text-primary uppercase mb-3 flex items-center gap-2">
@@ -43,10 +45,10 @@ export default function OurValues() {
             Our values
           </h2>
         <HeadingTypography className="mb-4">Our values of company</HeadingTypography>
-        <p className="text-gray-600 text-base leading-relaxed max-w-lg">
+        <DescriptionTypography className="max-w-lg">
           Lorem ipsum dolor sit amet consect adipisicing elit. Possimus magnam
           voluptatum cupiditate veritatis in accusamus quisquam.
-        </p>
+        </DescriptionTypography>
       </div>
 
       {/* Values Grid */}
@@ -62,6 +64,6 @@ export default function OurValues() {
           </div>
         ))}
       </div>
-    </section>
+    </ContainerLayout>
   );
 }

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import React from "react";
 import HeadingTypography from "../HeadingTypography";
+import DescriptionTypography from "../DescriptionTypography";
 
 const stats = [
   { value: "44 million", label: "Transactions every 24 hours" },
@@ -20,16 +21,16 @@ export default function MissionSection() {
             Our mission
           </h2>
           <HeadingTypography>Mission of our company</HeadingTypography>
-          <p className="text-gray-600 text-base leading-relaxed">
+          <DescriptionTypography className="text-gray-600">
             To consistently develop IT solutions that provide our clients with a
             competitive advantage, facilitating their achievement of success
             milestones.
-          </p>
-          <p className="text-gray-600 text-base leading-relaxed">
+          </DescriptionTypography>
+          <DescriptionTypography className="text-gray-600">
             To consistently develop IT solutions that provide our clients with a
             competitive advantage, facilitating their achievement of success
             milestones.
-          </p>
+          </DescriptionTypography>
         </div>
 
         {/* Right: Stats */}
