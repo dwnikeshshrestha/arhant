@@ -152,12 +152,12 @@ export default function ContactPage() {
       {/* Grid background pattern */}
       <div
         className="absolute inset-0 pointer-events-none"
-        style={{
-          backgroundImage:
-            "linear-gradient(to right, #e5e7eb 1px, transparent 1px), linear-gradient(to bottom, #e5e7eb 1px, transparent 1px)",
-          backgroundSize: "32px 32px",
-          opacity: 0.4,
-        }}
+        // style={{
+        //   backgroundImage:
+        //     "linear-gradient(to right, #e5e7eb 1px, transparent 1px), linear-gradient(to bottom, #e5e7eb 1px, transparent 1px)",
+        //   backgroundSize: "32px 32px",
+        //   opacity: 0.4,
+        // }}
       />
 
       <ContainerLayout className="relative">

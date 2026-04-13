@@ -2,204 +2,158 @@
 
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/Button";
-import { ArrowRight, Activity, Shield, Users } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { useEffect, useState } from "react";
-import ContainerLayout from "../layout/ContainerLayout";
+import Image from "next/image";
 
 export function HeroSection() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({
-        x: e.clientX,
-        y: e.clientY,
-      });
+      setMousePosition({ x: e.clientX, y: e.clientY });
     };
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
   return (
-    <ContainerLayout className="relative min-h-screen flex items-center justify-center overflow-hidden ">
-      {/* Dynamic Cursor Glow Background */}
+    <section className="relative pt-20 h-screen overflow-hidden font-sans">
+      {/* Cursor glow */}
       <motion.div
-        animate={{
-          x: mousePosition.x - 300,
-          y: mousePosition.y - 300,
-        }}
+        animate={{ x: mousePosition.x - 300, y: mousePosition.y - 300 }}
         transition={{ type: "tween", ease: "backOut", duration: 1 }}
         className="absolute w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] pointer-events-none hidden md:block"
       />
 
-      <div className="relative z-10  w-full flex flex-col lg:flex-row items-center gap-16">
-        {/* Left Side: Typography */}
-        <div className="flex-1 text-left">
-          {/* <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 bg-primary/5 text-primary text-sm font-medium mb-8"
-          >
-            <span className="flex h-2 w-2 rounded-full bg-primary animate-pulse" />
-            Leading B2B SaaS in Nepal
-          </motion.div> */}
+      {/* Same horizontal container as every other section */}
+      <div className="container mx-auto px-6 lg:px-8 h-full flex items-center">
+        <div className="w-full h-[85%] flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
 
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
-            className="text-5xl md:text-7xl lg:text-[5rem] font-heading font-extrabold text-foreground tracking-tight leading-[1.1] mb-6"
-          >
-            Powering Nepal&apos;s
-            <br />
-            <span className="text-primary italic">Insurance</span>
-            <br />
-            Industry with Smart Tech
-            {/* Leading Insurance <br />
-            Software purely <br />
-            in <span className="text-primary italic">Nepal.</span> */}
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
-            className="text-lg md:text-xl text-foreground/70 mb-10 max-w-xl font-sans leading-relaxed"
-          >
-            Arhant Solutions delivers enterprise-grade insurance management
-            systems — automating operations, accelerating digital
-            transformation, and building complete insurance ecosystems trusted
-            by 26+ insurance companies across Nepal.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
-            className="flex flex-col sm:flex-row items-center gap-4"
-          >
-            <Button
-              size="lg"
-              className="w-full sm:w-auto h-14 px-8 rounded-xl text-white font-medium group relative overflow-hidden transition-all shadow-[0_0_40px_-10px_rgba(255,100,0,0.5)] hover:shadow-[0_0_60px_-15px_rgba(255,100,0,0.7)]"
+          {/* ── Left: content ── */}
+          <div className="flex flex-col justify-center flex-1">
+            <motion.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
+              className="text-4xl md:text-5xl lg:text-6xl xl:text-[4.25rem] font-heading font-extrabold text-foreground tracking-tight leading-[1.1] mb-5"
             >
-              Request a Demo
-              <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Button>
-            <Button
-              size="lg"
-              variant="ghost"
-              className="w-full sm:w-auto h-14 px-8 rounded-xl text-foreground hover:bg-foreground/5 hover:text-primary transition-all group"
+              Powering Nepal&apos;s
+              <br />
+              <span className="text-primary italic">Insurance</span>
+              <br />
+              Industry with Smart Tech
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+              className="text-base md:text-lg text-foreground/65 mb-8 max-w-md leading-relaxed"
             >
-              Explore Solutions
-            </Button>
-          </motion.div>
-        </div>
+              Enterprise-grade insurance management systems trusted by 26+
+              companies — automating operations and accelerating digital
+              transformation across Nepal.
+            </motion.p>
 
-        {/* Right Side: Unique Interactive Visual / Dashboard Mockup */}
-        <div className="flex-1 w-full lg:w-auto relative hidden md:block">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9, rotateY: 20 }}
-            animate={{ opacity: 1, scale: 1, rotateY: 0 }}
-            transition={{ duration: 1, delay: 0.2, type: "spring" }}
-            className="relative w-full max-w-[500px] h-[600px] mx-auto [perspective:1000px]"
-          >
-            {/* Base abstract plane */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-card to-background border border-border shadow-2xl shadow-primary/10 rounded-3xl overflow-hidden [transform:rotateX(10deg)_rotateZ(-5deg)] hover:[transform:rotateX(5deg)_rotateZ(-2deg)] transition-transform duration-700">
-              <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-primary/10 to-transparent pointer-events-none" />
+            {/* CTA */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
+              className="flex flex-wrap items-center gap-3 mb-10"
+            >
+              <Button size="lg" className="gap-2">
+                Get Started <ArrowRight className="w-4 h-4" />
+              </Button>
+              <Button size="lg" variant="outline">
+                View Our Work
+              </Button>
+            </motion.div>
 
-              {/* Fake UI Elements */}
-              <div className="p-8 space-y-6">
-                <div className="flex justify-between items-center bg-background/50 backdrop-blur rounded-2xl p-4 border border-border/50">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
-                      <Activity className="w-5 h-5 text-primary" />
-                    </div>
-                    <div>
-                      <div className="text-sm font-bold text-foreground">
-                        Policies Active
-                      </div>
-                      <div className="text-xs text-foreground/50">
-                        IENSURE LIFE
-                      </div>
-                    </div>
-                  </div>
-                  <div className="text-primary font-bold text-xl">+24%</div>
+            {/* Stats */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
+              className="grid grid-cols-4 gap-6 pt-8 border-t border-border max-w-sm"
+            >
+              {[
+                { value: "26+", label: "Companies" },
+                { value: "15", label: "Non-Life" },
+                { value: "9", label: "Life" },
+                { value: "83%", label: "Market" },
+              ].map((stat, i) => (
+                <div key={i} className="flex flex-col gap-0.5">
+                  <span className="text-2xl font-heading font-bold text-foreground">
+                    {stat.value}
+                  </span>
+                  <span className="text-xs text-foreground/45">{stat.label}</span>
                 </div>
+              ))}
+            </motion.div>
+          </div>
 
-                <div className="flex justify-between items-center bg-background/50 backdrop-blur rounded-2xl p-4 border border-border/50 translate-x-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center">
-                      <Shield className="w-5 h-5 text-blue-500" />
-                    </div>
-                    <div>
-                      <div className="text-sm font-bold text-foreground">
-                        Claims Processed
-                      </div>
-                      <div className="text-xs text-foreground/50">
-                        IENSURE GENERAL
-                      </div>
-                    </div>
-                  </div>
-                  <div className="text-blue-500 font-bold text-xl">1.2M</div>
-                </div>
+          {/* ── Right: image ── */}
+          <div className="flex-[1.1] hidden lg:block relative h-full">
+            {/* Glow blobs */}
+            <div className="absolute top-1/3 right-4 w-64 h-64 bg-primary/20 blur-3xl rounded-full -z-10" />
+            <div className="absolute bottom-1/4 left-4 w-56 h-56 bg-blue-500/15 blur-3xl rounded-full -z-10" />
 
-                <div className="flex justify-between items-center bg-background/50 backdrop-blur rounded-2xl p-4 border border-border/50 -translate-x-2">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center">
-                      <Users className="w-5 h-5 text-purple-500" />
-                    </div>
-                    <div>
-                      <div className="text-sm font-bold text-foreground">
-                        Micro Enrollments
-                      </div>
-                      <div className="text-xs text-foreground/50">
-                        IENSURE MICRO
-                      </div>
-                    </div>
-                  </div>
-                  <div className="text-purple-500 font-bold text-xl">+890</div>
-                </div>
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.9, delay: 0.25, ease: "easeOut" }}
+              className="relative w-full h-full py-8"
+            >
+              {/* Main image */}
+              <div
+                className="relative w-full h-full overflow-hidden shadow-2xl shadow-black/25 ring-1 ring-border/30"
+                style={{ borderRadius: "40px 12px 40px 12px" }}
+              >
+                <Image
+                  src="https://plus.unsplash.com/premium_photo-1722859220312-0f4db78d3087?q=80&w=1114&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                  alt="Insurance Technology Platform"
+                  fill
+                  className="object-cover"
+                  priority
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/25 via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-linear-to-r from-background/15 via-transparent to-transparent" />
               </div>
 
-              {/* Grid Background within container */}
-              <div
-                className="absolute inset-0 pointer-events-none opacity-10 dark:opacity-20"
-                style={{
-                  backgroundImage:
-                    "linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)",
-                  backgroundSize: "30px 30px",
-                }}
-              />
-              <div
-                className="absolute inset-0 pointer-events-none opacity-20 dark:hidden"
-                style={{
-                  backgroundImage:
-                    "linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)",
-                  backgroundSize: "30px 30px",
-                }}
-              />
-            </div>
+              {/* Accent image — bottom-left overlap */}
+              <motion.div
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.7, ease: "easeOut" }}
+                className="absolute bottom-16 -left-10 w-40 h-40 overflow-hidden shadow-2xl shadow-black/25 ring-2 ring-background"
+                style={{ borderRadius: "24px 8px 24px 8px" }}
+              >
+                <Image
+                  src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=800&auto=format&fit=crop"
+                  alt="Team working"
+                  fill
+                  className="object-cover"
+                />
+              </motion.div>
 
-            {/* Floating decorative elements */}
-            <motion.div
-              animate={{ y: [0, -20, 0] }}
-              transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-              className="absolute -top-10 -right-10 w-24 h-24 bg-primary/30 blur-xl rounded-full"
-            />
-            <motion.div
-              animate={{ y: [0, 20, 0] }}
-              transition={{
-                repeat: Infinity,
-                duration: 5,
-                ease: "easeInOut",
-                delay: 1,
-              }}
-              className="absolute -bottom-10 -left-10 w-32 h-32 bg-blue-500/20 blur-xl rounded-full"
-            />
-          </motion.div>
+              {/* Pill badge — top-left */}
+              <motion.div
+                animate={{ y: [0, -6, 0] }}
+                transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+                className="absolute top-12 -left-8 bg-background/95 backdrop-blur-md border border-border rounded-2xl px-4 py-2.5 shadow-xl flex items-center gap-2.5"
+              >
+                <span className="h-2 w-2 rounded-full bg-green-500 animate-pulse shrink-0" />
+                <span className="text-sm font-semibold text-foreground whitespace-nowrap">
+                  83% Nepal Market Share
+                </span>
+              </motion.div>
+            </motion.div>
+          </div>
+
         </div>
       </div>
-    </ContainerLayout>
+    </section>
   );
 }

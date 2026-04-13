@@ -23,7 +23,7 @@ const projects: Project[] = [
     description:
       "A comprehensive enterprise solution powering underwriting, claims processing, and policy lifecycle management for leading insurers across Nepal.",
     imageUrl:
-      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2426&auto=format&fit=crop",
+      "/assets/our-works/ebeema-new.png?q=80&w=2426&auto=format&fit=crop",
     websiteUrl: "#",
     tags: ["Underwriting", "Claims", "Policy Management"],
   },
@@ -91,7 +91,7 @@ function ProjectCard({
         <img
           src={project.imageUrl}
           alt={project.title}
-          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+          className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-110"
         />
 
         {/* Gradient Overlay — always visible, darkens on hover */}
@@ -99,9 +99,20 @@ function ProjectCard({
 
         {/* Category Badge */}
         <div className="absolute top-5 left-5 z-20">
-          <span className="px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider rounded-full bg-white/10 backdrop-blur-md text-white border border-white/20">
+          {/* <span className="px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider rounded-full bg-white/10 backdrop-blur-md text-white border border-white/20"> */}
+
+          <div className="bg-gradient-to-r from-black/60 to-transparent rounded-full p-[1px]">
+            <span
+              className="px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider rounded-full 
+    bg-black/40 backdrop-blur-md text-white"
+            >
+              {project.category}
+            </span>
+          </div>
+          {/* <span className="px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider rounded-full 
+bg-white/20 backdrop-blur-md text-white border border-white/30 shadow-md">
             {project.category}
-          </span>
+          </span> */}
         </div>
 
         {/* Arrow Icon — top right */}
@@ -185,12 +196,14 @@ export function OurWorkSection() {
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
             >
-              <span className="text-primary text-sm font-semibold uppercase tracking-widest mb-4 block">
-                Our Work
-              </span>
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-[2px] bg-primary rounded-full" />
+                <span className="text-primary text-xs font-bold uppercase tracking-widest">
+                  Our Work
+                </span>
+              </div>
               <h2 className="text-3xl md:text-5xl font-heading font-bold text-foreground leading-tight">
-                Projects that{" "}
-                <span className="text-primary">define</span>
+                Projects that <span className="text-primary">define</span>
                 <br className="hidden md:block" /> the future of insurance
               </h2>
             </motion.div>

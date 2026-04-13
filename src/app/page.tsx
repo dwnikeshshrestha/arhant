@@ -3,8 +3,8 @@ import { BlogSection } from "@/components/blocks/BlogSection";
 import { ClientsSection } from "@/components/blocks/ClientsSection";
 import { FaqSection } from "@/components/blocks/FaqSection";
 import { HeroSection } from "@/components/blocks/HeroSection";
+import { InsuranceClientsSection } from "@/components/blocks/InsuranceClientsSection";
 import { OurWorkSection } from "@/components/blocks/OurWorkSection";
-import { PartnersSection } from "@/components/blocks/PartnersSection";
 import { ProductsSection } from "@/components/blocks/ProductsSection";
 import { SolutionsSection } from "@/components/blocks/SolutionsSection";
 import ContainerLayout from "@/components/layout/ContainerLayout";
@@ -19,7 +19,7 @@ export default function Home() {
       <SolutionsSection />
       {/* <AboutSection /> */}
       <OurWorkSection />
-      <PartnersSection />
+      <InsuranceClientsSection />
       <BlogSection />
       <FaqSection />
       {/* <Footer /> */}

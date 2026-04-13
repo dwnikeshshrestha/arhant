@@ -6,6 +6,7 @@ import { Activity, ArrowRight, Layers, ShieldCheck, Users } from "lucide-react";
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import ContainerLayout from "../layout/ContainerLayout";
+
 // ─── Types ──────────────────────────────────────────────────────────────
 type SolutionId = "life" | "general" | "aggregator" | "micro";
 
@@ -14,17 +15,26 @@ interface Solution {
   title: string;
   description: string;
   icon: React.ElementType;
-  color: string; // Tailwind gradient classes
-  glowColor: string; // CSS hex/rgb
+  color: string;
+  glowColor: string;
   badge: string;
   stat1: string;
   stat2: string;
 }
 
+// ─── Feature Highlights (shared across all products) ────────────────────
+const FEATURE_HIGHLIGHTS = [
+  "Policy Administration",
+  "Underwriting",
+  "Claims Management",
+  "Reporting & Analytics",
+  "Accounting",
+];
+
 // ─── Data ──────────────────────────────────────────────────────────────
 const imageMap: Record<SolutionId, string> = {
   life: "/assets/our-solutions/lifeInsurance.png",
-  general: "/assets/our-solutions/lifeInsurance.png", // different images
+  general: "/assets/our-solutions/lifeInsurance.png",
   aggregator: "/assets/our-solutions/lifeInsurance.png",
   micro: "/assets/our-solutions/lifeInsurance.png",
 };
@@ -113,28 +123,40 @@ export function SolutionsSection() {
   }, [activeIndex, isMobile]);
 
   // ── Scroll calculations ────────────────────────────────────────────
-  const cardHeight = isMobile ? 380 : 450;
-  // const cardHeight = isMobile ? 380 : 520;
+  const cardHeight = isMobile ? 460 : 510;
   const totalScrollDistance = isMobile ? 1400 : 2000;
   const pinOffset = isMobile ? 72 : 80;
   const scrollStep = totalScrollDistance / (solutions.length - 1);
 
+  // Stores the ScrollTrigger instance so handleNavClick can read .start reliably
+  const stRef = useRef<ScrollTrigger | null>(null);
+
   const handleNavClick = useCallback(
     (index: number) => {
+      // st.start is the exact scrollY where the pin begins.
+      // getBoundingClientRect() breaks after pinning because the element is
+      // fixed in the viewport, making top ~= pinOffset regardless of scrollY.
+      const pinStart = stRef.current?.start;
+      if (pinStart != null) {
+        window.scrollTo({ top: pinStart + scrollStep * index, behavior: "smooth" });
+        return;
+      }
+      // Fallback before scroll-trigger initializes (page load, first render)
       if (!stackRef.current) return;
-      const rect = stackRef.current.getBoundingClientRect();
-      const stackTop = rect.top + window.scrollY - pinOffset;
-      window.scrollTo({
-        top: stackTop + scrollStep * index,
-        behavior: "smooth",
-      });
+      const el = stackRef.current;
+      let offsetTop = 0;
+      let node: HTMLElement | null = el;
+      while (node) {
+        offsetTop += node.offsetTop;
+        node = node.offsetParent as HTMLElement | null;
+      }
+      window.scrollTo({ top: offsetTop - pinOffset + scrollStep * index, behavior: "smooth" });
     },
     [pinOffset, scrollStep],
   );
 
-  // ── GSAP + Lenis (only on desktop) ────────────────────────────────
-  const [scrollTriggerInstance, setScrollTriggerInstance] =
-    useState<ScrollTrigger | null>(null);
+  // ── Animation (scroll-trigger + Lenis) ───────────────────────────
+
   useEffect(() => {
     if (!mounted) return;
 
@@ -142,14 +164,12 @@ export function SolutionsSection() {
     let ctx: gsap.Context | null = null;
 
     const initAnimation = async () => {
-      // Dynamic imports to reduce bundle size
       const gsapModule = await import("gsap");
       const ScrollTriggerModule = await import("gsap/ScrollTrigger");
       const gsap = gsapModule.gsap;
       const ScrollTrigger = ScrollTriggerModule.ScrollTrigger;
       gsap.registerPlugin(ScrollTrigger);
 
-      // ── Lenis (desktop only) ──────────────────────────────────────
       if (!isMobile) {
         const LenisModule = await import("lenis");
         const Lenis = LenisModule.default;
@@ -163,12 +183,10 @@ export function SolutionsSection() {
         gsap.ticker.lagSmoothing(0);
       }
 
-      // ── GSAP Context (auto-cleanup) ────────────────────────────────
       ctx = gsap.context(() => {
         const cards = cardRefs.current.filter(Boolean) as HTMLDivElement[];
         if (cards.length === 0) return;
 
-        // Reset any inline styles before building timeline
         cards.forEach((card, idx) => {
           gsap.set(card, { clearProps: "all" });
           if (idx > 0) {
@@ -176,7 +194,6 @@ export function SolutionsSection() {
           }
         });
 
-        // Master timeline
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: stackRef.current,
@@ -185,9 +202,15 @@ export function SolutionsSection() {
             pin: true,
             pinSpacing: true,
             anticipatePin: 1,
-            scrub: isMobile ? 0.5 : 1,
+            scrub: isMobile ? 0.3 : 1,
             invalidateOnRefresh: true,
+            onRefresh: (self: ScrollTrigger) => {
+              // Keep stRef up-to-date so handleNavClick always uses the
+              // recalculated .start after resize or layout shifts.
+              stRef.current = self;
+            },
             onUpdate: (self: ScrollTrigger) => {
+              stRef.current = self;
               const progress = self.progress;
               const segments = cards.length - 1;
               const idx = Math.min(
@@ -199,12 +222,11 @@ export function SolutionsSection() {
           },
         });
 
-        const segmentDuration = 1; // seconds
+        const segmentDuration = 1;
 
         for (let i = 1; i < cards.length; i++) {
           const insertPos = (i - 1) * segmentDuration;
 
-          // Bring next card up
           tl.to(
             cards[i],
             {
@@ -216,7 +238,6 @@ export function SolutionsSection() {
             insertPos,
           );
 
-          // Push previous cards down and scale
           for (let j = 0; j < i; j++) {
             const depth = i - j;
             tl.to(
@@ -233,18 +254,14 @@ export function SolutionsSection() {
         }
       }, stackRef);
 
-      // Force ScrollTrigger to recalculate positions
       ScrollTrigger.refresh();
     };
 
     initAnimation();
 
     return () => {
-      // Cleanup GSAP context
       if (ctx) ctx.revert();
-      // Kill ScrollTrigger instances to prevent memory leaks
-      if (scrollTriggerInstance) scrollTriggerInstance.kill();
-      // Destroy Lenis
+      if (stRef.current) stRef.current.kill();
       if (lenis) lenis.destroy();
     };
   }, [mounted, isMobile, totalScrollDistance, pinOffset]);
@@ -307,7 +324,7 @@ export function SolutionsSection() {
                   onClick={() => handleNavClick(i)}
                   className={`flex items-center gap-1.5 px-3.5 py-2 rounded-full text-[11px] font-semibold whitespace-nowrap transition-all duration-300 shrink-0 ${
                     isActive
-                      ? `bg-gradient-to-r ${sol.color} text-white shadow-lg shadow-black/10`
+                      ? `bg-linear-to-r ${sol.color} text-white shadow-lg shadow-black/10`
                       : "bg-foreground/[0.06] text-foreground/40 active:scale-95"
                   }`}
                 >
@@ -330,7 +347,7 @@ export function SolutionsSection() {
                 <button
                   key={sol.id}
                   onClick={() => handleNavClick(i)}
-                  className={`relative w-full group p-4 rounded-2xl text-left transition-all duration-300 overflow-hidden ${
+                  className={`relative w-full group p-4 rounded-2xl text-left transition-all duration-300 overflow-hidden cursor-pointer ${
                     isActive
                       ? "bg-card shadow-md border border-foreground/[0.08]"
                       : "hover:bg-foreground/[0.03] border border-transparent"
@@ -338,14 +355,14 @@ export function SolutionsSection() {
                 >
                   {isActive && (
                     <span
-                      className={`absolute left-0 top-3 bottom-3 w-[3px] rounded-r-full bg-gradient-to-b ${sol.color}`}
+                      className={`absolute left-0 top-3 bottom-3 w-[3px] rounded-r-full bg-linear-to-b ${sol.color}`}
                     />
                   )}
                   <div className="flex gap-4 items-center pl-1">
                     <div
                       className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300 ${
                         isActive
-                          ? `bg-gradient-to-br ${sol.color} text-white shadow-md`
+                          ? `bg-linear-to-br ${sol.color} text-white shadow-md`
                           : "bg-foreground/5 text-foreground/30"
                       }`}
                     >
@@ -369,15 +386,6 @@ export function SolutionsSection() {
                         {sol.badge}
                       </p>
                     </div>
-                    {/* <span
-                      className={`text-xs font-mono shrink-0 transition-colors ${
-                        isActive
-                          ? "text-primary font-bold"
-                          : "text-foreground/20"
-                      }`}
-                    >
-                      0{i + 1}
-                    </span> */}
                   </div>
                 </button>
               );
@@ -388,7 +396,7 @@ export function SolutionsSection() {
                   key={sol.id}
                   className={`rounded-full transition-all duration-500 ${
                     activeIndex === i
-                      ? `h-2 w-6 bg-gradient-to-r ${sol.color}`
+                      ? `h-2 w-6 bg-linear-to-r ${sol.color}`
                       : "h-2 w-2 bg-foreground/15"
                   }`}
                 />
@@ -414,49 +422,86 @@ export function SolutionsSection() {
                     className="absolute inset-0 will-change-transform"
                     style={{ zIndex: i + 1, transformOrigin: "top center" }}
                   >
-                    <div className="relative w-full h-full rounded-2xl lg:rounded-[2rem] overflow-hidden bg-card border border-foreground/[0.08] shadow-[0_30px_60px_-15px_rgba(0,0,0,0.12)]">
+                    {/* Card */}
+                    <div className="group relative w-full h-full rounded-2xl lg:rounded-[2rem] overflow-hidden bg-card border border-foreground/[0.08] shadow-[0_30px_60px_-15px_rgba(0,0,0,0.12)] transition-shadow duration-500 hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.28)]">
+
                       {/* Top accent stripe */}
                       <div
-                        className={`absolute inset-x-0 top-0 h-1 z-10 bg-gradient-to-r ${sol.color}`}
+                        className={`absolute inset-x-0 top-0 h-1 z-10 bg-linear-to-r ${sol.color}`}
                       />
 
-                      {/* Background image */}
-                      <Image
-                        src={imageMap[sol.id]}
-                        alt={sol.title}
-                        fill
-                        className="object-cover object-top"
-                        priority={i === 0}
-                        sizes="(max-width: 1024px) 100vw, 60vw"
+                      {/* Background image — wrapped for isolated zoom */}
+                      <div className="absolute inset-0 overflow-hidden">
+                        <Image
+                          src={imageMap[sol.id]}
+                          alt={sol.title}
+                          fill
+                          className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                          priority={i === 0}
+                          sizes="(max-width: 1024px) 100vw, 60vw"
+                        />
+                      </div>
+
+                      {/* Dark overlay — deepens on hover */}
+                      <div className="absolute inset-0 bg-linear-to-t from-black/85 via-black/25 to-transparent transition-opacity duration-500 group-hover:from-black/90" />
+
+                      {/* Color glow that bleeds in from the bottom on hover */}
+                      <div
+                        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-[2]"
+                        style={{
+                          background: `radial-gradient(ellipse at 50% 115%, ${sol.glowColor}40 0%, transparent 60%)`,
+                          boxShadow: `inset 0 0 0 1px ${sol.glowColor}28`,
+                        }}
                       />
 
-                      {/* Dark overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                      {/* Content */}
+                      <div className="absolute bottom-0 inset-x-0 p-5 sm:p-7 z-10">
 
-                      {/* Bottom info */}
-                      <div className="absolute bottom-0 inset-x-0 p-5 sm:p-8 z-10 flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 sm:gap-6">
-                        <div className="min-w-0">
-                          <span
-                            className={`inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full bg-gradient-to-r ${sol.color} text-white mb-3`}
-                          >
-                            <Icon className="w-3 h-3" />
-                            {sol.badge}
-                          </span>
-                          <h3 className="text-white text-lg sm:text-2xl font-bold leading-tight">
-                            {sol.title}
-                          </h3>
-                          <p className="text-white/55 text-xs sm:text-sm mt-2 max-w-sm leading-relaxed">
-                            {sol.description}
-                          </p>
+                        {/* Badge + title + description + stat */}
+                        <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 sm:gap-6">
+                          <div className="min-w-0">
+                            <span
+                              className={`inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full bg-linear-to-r ${sol.color} text-white mb-3`}
+                            >
+                              <Icon className="w-3 h-3" />
+                              {sol.badge}
+                            </span>
+                            <h3 className="text-white text-lg sm:text-2xl font-bold leading-tight">
+                              {sol.title}
+                            </h3>
+                            <p className="text-white/55 text-xs sm:text-sm mt-1.5 max-w-sm leading-relaxed">
+                              {sol.description}
+                            </p>
+                          </div>
+                          <div className="shrink-0 self-end sm:self-auto">
+                            <div className="bg-white/10 backdrop-blur-md border border-white/15 rounded-xl sm:rounded-2xl px-3.5 sm:px-5 py-2 sm:py-3.5 text-right transition-all duration-300 group-hover:bg-white/14 group-hover:border-white/22">
+                              <p className="text-white font-bold text-xs sm:text-sm">
+                                {sol.stat1}
+                              </p>
+                              <p className="text-white/45 text-[10px] sm:text-xs mt-0.5">
+                                {sol.stat2}
+                              </p>
+                            </div>
+                          </div>
                         </div>
-                        <div className="shrink-0 self-end sm:self-auto">
-                          <div className="bg-white/10 backdrop-blur-md border border-white/15 rounded-xl sm:rounded-2xl px-3.5 sm:px-5 py-2 sm:py-3.5 text-right">
-                            <p className="text-white font-bold text-xs sm:text-sm">
-                              {sol.stat1}
-                            </p>
-                            <p className="text-white/45 text-[10px] sm:text-xs mt-0.5">
-                              {sol.stat2}
-                            </p>
+
+                        {/* Feature chips — always visible row */}
+                        <div className="mt-4 pt-3.5 border-t border-white/9">
+                          <div
+                            className="flex gap-2 overflow-x-auto"
+                            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+                          >
+                            {FEATURE_HIGHLIGHTS.map((label) => (
+                              <span
+                                key={label}
+                                className={`flex items-center gap-1.5 text-[10px] sm:text-[11px] font-medium text-white/55 bg-white/6 border border-white/8 px-2.5 py-1 rounded-full whitespace-nowrap shrink-0 transition-colors duration-300 group-hover:text-white/70 group-hover:border-white/13`}
+                              >
+                                <span
+                                  className={`inline-block w-1.25 h-1.25 rounded-full shrink-0 bg-linear-to-br ${sol.color}`}
+                                />
+                                {label}
+                              </span>
+                            ))}
                           </div>
                         </div>
                       </div>
@@ -466,24 +511,22 @@ export function SolutionsSection() {
               })}
             </div>
 
-            {/* Mobile progress dots */}
+            {/* Mobile progress dots — tappable */}
             <div className="flex lg:hidden items-center justify-center gap-2 pt-4">
               {solutions.map((sol, i) => (
-                <div
+                <button
                   key={sol.id}
-                  className={`rounded-full transition-all duration-500 ${
+                  onClick={() => handleNavClick(i)}
+                  aria-label={`Go to ${sol.title}`}
+                  className={`rounded-full transition-all duration-500 active:scale-90 ${
                     activeIndex === i
-                      ? `h-2 w-6 bg-gradient-to-r ${sol.color}`
+                      ? `h-2 w-6 bg-linear-to-r ${sol.color}`
                       : "h-2 w-2 bg-foreground/15"
                   }`}
                 />
               ))}
             </div>
           </div>
-        </div>
-
-        <div>
-          
         </div>
       </ContainerLayout>
     </section>
