@@ -1,11 +1,11 @@
 "use client";
 
 import { motion, useMotionValueEvent, useScroll, AnimatePresence } from "framer-motion";
-import { Moon, Sun, Menu, X, ArrowRight } from "lucide-react";
-import { useTheme } from "next-themes";
+import { Menu, X, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { ThemeCustomizer } from "@/components/ThemeCustomizer";
 
 const socialLinks = [
   {
@@ -50,10 +50,6 @@ export function Navbar() {
   const [hidden, setHidden] = React.useState(false);
   const [scrolled, setScrolled] = React.useState(false);
   const [menuOpen, setMenuOpen] = React.useState(false);
-  const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = React.useState(false);
-
-  React.useEffect(() => setMounted(true), []);
 
   // Lock body scroll when menu is open
   React.useEffect(() => {
@@ -118,16 +114,8 @@ export function Navbar() {
               ))}
             </nav>
 
-            {/* Theme toggle */}
-            {mounted && (
-              <button
-                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                className="p-2 rounded-full hover:bg-foreground/10 transition-colors text-foreground"
-                aria-label="Toggle theme"
-              >
-                {theme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-              </button>
-            )}
+            {/* Theme customizer */}
+            <ThemeCustomizer />
 
             {/* Mobile hamburger */}
             <button
@@ -240,20 +228,8 @@ export function Navbar() {
                 ))}
               </div>
 
-              {/* Theme toggle */}
-              {mounted && (
-                <button
-                  onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                  className="flex items-center gap-2 px-4 py-2 rounded-full border border-border hover:bg-foreground/5 transition-colors text-foreground text-sm font-medium"
-                  aria-label="Toggle theme"
-                >
-                  {theme === "dark" ? (
-                    <><Sun className="w-4 h-4" /> Light</>
-                  ) : (
-                    <><Moon className="w-4 h-4" /> Dark</>
-                  )}
-                </button>
-              )}
+              {/* Theme customizer */}
+              <ThemeCustomizer />
             </motion.div>
           </motion.div>
         )}
