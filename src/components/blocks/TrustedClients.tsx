@@ -2,7 +2,7 @@ import ContainerLayout from "../layout/ContainerLayout";
 
 export default function TrustedClients() {
   return (
-    <ContainerLayout className="bg-white !py-24 sm:!py-32">
+    <ContainerLayout className="bg-white">
       <div className="mx-auto max-w-7xl">
         <h2 className="text-center text-lg/8 font-semibold text-gray-900">
           Trusted by the world’s most innovative teams

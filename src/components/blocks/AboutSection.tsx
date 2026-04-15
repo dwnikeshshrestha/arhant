@@ -25,13 +25,8 @@ export function AboutSection() {
   };
 
   return (
-    <ContainerLayout
-      id="about-us"
-      className="bg-background relative overflow-hidden"
-    >
-      {/* Subtle background glow */}
-      {/* <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 bg-primary/20 blur-[120px] rounded-full pointer-events-none" /> */}
 
+<>
       <div className="relative z-10  space-y-25">
         <motion.div
           variants={containerVariants}
@@ -132,6 +127,7 @@ export function AboutSection() {
           <MissionSection />
         </motion.div>
       </div>
-    </ContainerLayout>
+      </>
+
   );
 }

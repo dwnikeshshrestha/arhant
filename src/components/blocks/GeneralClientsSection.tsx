@@ -1,3 +1,4 @@
+
 "use client";
 
 import { motion, useInView } from "framer-motion";
@@ -40,23 +41,7 @@ const GENERAL_CLIENTS = [
   { src: "/assets/clients/sanima.png", name: "Sanima General" },
 ];
 
-const LIFE_CLIENTS = [
-  {
-    src: "/assets/clients/1620379054024-Asian-Life-Insurance 1.png",
-    name: "Asian Life",
-  },
-  { src: "/assets/clients/citizen-life-insurance 1.png", name: "Citizen Life" },
-  { src: "/assets/clients/ime-life-insurance28 1.png", name: "IME Life" },
-  { src: "/assets/clients/jyoti-life-insurance 1.png", name: "Jyoti Life" },
-  { src: "/assets/clients/lic-logo 1.png", name: "LIC Nepal" },
-  { src: "/assets/clients/national-life 1.png", name: "National Life" },
-  { src: "/assets/clients/nepallife.png", name: "Nepal Life" },
-  {
-    src: "/assets/clients/reliable-life-insurance-limited52 1.png",
-    name: "Reliable Life",
-  },
-  { src: "/assets/clients/union-life-insurance 1.png", name: "Union Life" },
-];
+
 
 const projects = [
   {
@@ -75,23 +60,7 @@ const projects = [
     link: "https://google.com",
   },
 ];
-const projectsLife = [
-  {
-    title: "9",
-    description: "Life Insurance Companies",
-    link: "https://stripe.com",
-  },
-  {
-    title: "100%",
-    description: "Uptime SLA Maintained",
-    link: "https://netflix.com",
-  },
-  {
-    title: "∞",
-    description: "Ongoing Support & Maintenance",
-    link: "https://google.com",
-  },
-];
+
 // ─── Animated Counter ──────────────────────────────────────────────────────────
 
 function AnimatedCounter({
@@ -183,9 +152,9 @@ function ClientLogoGrid({
 
 // ─── Main Component ────────────────────────────────────────────────────────────
 
-export function InsuranceClientsSection() {
+export default function GeneralClientsSection() {
   const primaryOrange = "hsl(24 100% 50%)";
-  const primaryBlue = "hsl(217 91% 55%)";
+
 
   return (
     <ContainerLayout
@@ -253,59 +222,7 @@ export function InsuranceClientsSection() {
     
       </div>
 
-      {/* ── LIFE INSURANCE ─────────────────────────────────────────────── */}
-      <div className="border-b border-border/60">
-        
-          {/* Header — centered */}
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <SectionBadge
-              label="Life Insurance Clients"
-              
-              centered
-            />
-            <motion.h2
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.6, ease: "easeOut" }}
-              className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-foreground leading-[1.1] mb-6"
-            >
-              <AnimatedCounter target={9} /> <span className="text-primary">leading</span> life insurers
-              trust <span className="italic">iEnsure Life</span>
-            </motion.h2>
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.5, delay: 0.15 }}
-            >
-              <DescriptionTypography className="mb-4">
-                Trusted by nine leading life insurance companies for core
-                operations — from policy issuance and actuarial reporting to
-                claims settlement and compliance.
-              </DescriptionTypography>
-            </motion.div>
-          </div>
-
-          <div className="max-w-3xl mx-auto mb-12">
-            <HoverEffect items={projectsLife} />
-          </div>
-
-          {/* Client Logos */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4 }}
-            className="text-xs font-semibold uppercase tracking-widest text-foreground/40 mb-5 text-center"
-          >
-            Our 9 Life Insurance Clients
-          </motion.p>
-          <ClientLogoGrid clients={LIFE_CLIENTS} accentColor={primaryBlue} />
-       
-      </div>
-
-      
+    
     
     </ContainerLayout>
   );

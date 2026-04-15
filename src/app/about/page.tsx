@@ -6,9 +6,12 @@ import React from "react";
 
 function page() {
   return (
-    <ContainerLayout className="space-y-6">
+    <ContainerLayout
+      id="about-us"
+      className="bg-background relative overflow-hidden"
+    >
       <AboutSection />
-      
+
       <OurValues />
       {/* <TrustedClients /> */}
     </ContainerLayout>

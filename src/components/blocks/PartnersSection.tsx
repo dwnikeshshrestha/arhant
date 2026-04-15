@@ -17,7 +17,7 @@ const PARTNERS = [
 
 export function PartnersSection() {
   return (
-    <ContainerLayout id="partners" className="bg-background border-y border-foreground/5 overflow-hidden !py-20">
+    <ContainerLayout id="partners" className="bg-background border-y border-foreground/5 overflow-hidden">
       <div className="max-w-6xl mx-auto text-center mb-12">
         <motion.p
           initial={{ opacity: 0, y: 10 }}

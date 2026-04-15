@@ -42,7 +42,7 @@ export function ClientsSection() {
   const duplicatedClients = [...clients, ...clients];
 
   return (
-    <ContainerLayout className="bg-background border-y border-border overflow-hidden drop-shadow-lg !py-16">
+    <ContainerLayout className="bg-background border-y border-border overflow-hidden drop-shadow-lg">
       <div className="max-w-6xl mx-auto text-center mb-10">
         <motion.h3
           initial={{ opacity: 0, y: 10 }}

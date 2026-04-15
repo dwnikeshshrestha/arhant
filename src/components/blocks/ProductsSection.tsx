@@ -66,7 +66,7 @@ const products: Product[] = [
 
 export function ProductsSection() {
   return (
-    <ContainerLayout id="products" className="relative bg-background overflow-hidden !py-32">
+    <ContainerLayout id="products" className="relative bg-background overflow-hidden">
       {/* Background Ornaments */}
 
       <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] -z-10" />

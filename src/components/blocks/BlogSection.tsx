@@ -59,7 +59,7 @@ export function BlogSection() {
             transition={{ delay: idx * 0.1 }}
             className="group cursor-pointer"
           >
-            <div className="h-48 rounded-2xl bg-foreground/5 border border-foreground/10 mb-6 overflow-hidden relative">
+            <div className="h-60 rounded-2xl bg-foreground/5 border border-foreground/10 mb-6 overflow-hidden relative">
               {/* Dummy Image Placeholder */}
               <div className="absolute inset-0 bg-gradient-to-tr from-white/5 to-white/10 group-hover:scale-105 transition-transform duration-500" />
               <div className="absolute bottom-4 left-4 bg-primary text-white text-xs px-3 py-1 rounded-full font-medium">

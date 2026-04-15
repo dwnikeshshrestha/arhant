@@ -58,6 +58,16 @@ const LIFE_CLIENTS = [
   { src: "/assets/clients/union-life-insurance 1.png", name: "Union Life" },
 ];
 
+const TECH_PARTNERS = [
+  { src: "/assets/tech-partner/DanLogo.png", name: "Dan IT" },
+  { src: "/assets/tech-partner/NCHL-Logo.png", name: "NCHL" },
+  { src: "/assets/tech-partner/cell-pay.png", name: "CellPay" },
+  { src: "/assets/tech-partner/esewa_logo.png", name: "eSewa" },
+  { src: "/assets/tech-partner/ime-pay.png", name: "IME Pay" },
+  { src: "/assets/tech-partner/npx.png", name: "NPX" },
+  { src: "/assets/tech-partner/palmmind-logo.webp", name: "Palmmind" },
+  { src: "/assets/tech-partner/thegana.svg", name: "The Gana" },
+];
 const projects = [
   {
     title: "15",
@@ -183,7 +193,7 @@ function ClientLogoGrid({
 
 // ─── Main Component ────────────────────────────────────────────────────────────
 
-export function InsuranceClientsSection() {
+export default function LifeInsuranceClientSection() {
   const primaryOrange = "hsl(24 100% 50%)";
   const primaryBlue = "hsl(217 91% 55%)";
 
@@ -192,121 +202,52 @@ export function InsuranceClientsSection() {
       id="insurance-clients"
       className="relative bg-background overflow-hidden"
     >
-      {/* Ambient background glows */}
-      {/* <div className="absolute top-0 left-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[140px] pointer-events-none -translate-x-1/2 -translate-y-1/4" />
-      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[120px] pointer-events-none translate-x-1/3 translate-y-1/4" /> */}
-
-      {/* ── GENERAL INSURANCE ──────────────────────────────────────────── */}
-      <div className="border-b border-border/60">
-    
-          {/* Header — centered */}
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <SectionBadge
-              label="General Insurance Clients"
-             
-              centered
-            />
-            <motion.h2
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.6, ease: "easeOut" }}
-              className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-foreground leading-[1.1] mb-6"
-            >
-              <AnimatedCounter target={15} />{" "}
-              <span className="text-primary">out of 18</span> non-life insurers
-              rely on <span className="italic">iEnsure General</span>
-            </motion.h2>
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.5, delay: 0.15 }}
-            >
-              <DescriptionTypography className="mb-4">
-                Including micro-insurance companies, our platform powers the
-                majority of Nepal&apos;s non-life insurance market — from policy
-                administration to claims automation.
-              </DescriptionTypography>
-            </motion.div>
-          </div>
-
-          {/* Stats */}
-          <div className="max-w-3xl mx-auto mb-12">
-            <HoverEffect items={projects} />
-          </div>
-
-          {/* Client Logos */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4 }}
-            className="text-xs font-semibold uppercase tracking-widest text-foreground/40 mb-5 text-center"
-          >
-            Our 15 General Insurance Clients
-          </motion.p>
-          <ClientLogoGrid
-            clients={GENERAL_CLIENTS}
-            accentColor={primaryOrange}
-          />
-    
-      </div>
-
       {/* ── LIFE INSURANCE ─────────────────────────────────────────────── */}
       <div className="border-b border-border/60">
-        
-          {/* Header — centered */}
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <SectionBadge
-              label="Life Insurance Clients"
-              
-              centered
-            />
-            <motion.h2
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.6, ease: "easeOut" }}
-              className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-foreground leading-[1.1] mb-6"
-            >
-              <AnimatedCounter target={9} /> <span className="text-primary">leading</span> life insurers
-              trust <span className="italic">iEnsure Life</span>
-            </motion.h2>
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.5, delay: 0.15 }}
-            >
-              <DescriptionTypography className="mb-4">
-                Trusted by nine leading life insurance companies for core
-                operations — from policy issuance and actuarial reporting to
-                claims settlement and compliance.
-              </DescriptionTypography>
-            </motion.div>
-          </div>
-
-          <div className="max-w-3xl mx-auto mb-12">
-            <HoverEffect items={projectsLife} />
-          </div>
-
-          {/* Client Logos */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4 }}
-            className="text-xs font-semibold uppercase tracking-widest text-foreground/40 mb-5 text-center"
+        {/* Header — centered */}
+        <div className="text-center max-w-2xl mx-auto mb-12">
+          <SectionBadge label="Life Insurance Clients" centered />
+          <motion.h2
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-foreground leading-[1.1] mb-6"
           >
-            Our 9 Life Insurance Clients
-          </motion.p>
-          <ClientLogoGrid clients={LIFE_CLIENTS} accentColor={primaryBlue} />
-       
-      </div>
+            <AnimatedCounter target={9} />{" "}
+            <span className="text-primary">leading</span> life insurers trust{" "}
+            <span className="italic">iEnsure Life</span>
+          </motion.h2>
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.5, delay: 0.15 }}
+          >
+            <DescriptionTypography className="mb-4">
+              Trusted by nine leading life insurance companies for core
+              operations — from policy issuance and actuarial reporting to
+              claims settlement and compliance.
+            </DescriptionTypography>
+          </motion.div>
+        </div>
 
-      
-    
+        <div className="max-w-3xl mx-auto mb-12">
+          <HoverEffect items={projectsLife} />
+        </div>
+
+        {/* Client Logos */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4 }}
+          className="text-xs font-semibold uppercase tracking-widest text-foreground/40 mb-5 text-center"
+        >
+          Our 9 Life Insurance Clients
+        </motion.p>
+        <ClientLogoGrid clients={LIFE_CLIENTS} accentColor={primaryBlue} />
+      </div>
     </ContainerLayout>
   );
 }

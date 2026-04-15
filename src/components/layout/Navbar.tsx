@@ -41,7 +41,7 @@ const navItems = [
   { title: "About Us", link: "/about" },
   { title: "Solutions", link: "/solutions" },
   { title: "Our Work", link: "/our/work" },
-  { title: "Blog", link: "/blog" },
+  { title: "Blog", link: "/blogs" },
   { title: "Contact", link: "/contact-us" },
 ];
 

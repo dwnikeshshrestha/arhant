@@ -20,18 +20,16 @@ export function HeroSection() {
   }, []);
 
   return (
-    <ContainerLayout 
-      className="relative h-screen overflow-hidden !py-0"
-      innerClassName="h-full flex items-center pt-20"
-      backgroundElements={
-        <motion.div
-          animate={{ x: mousePosition.x - 300, y: mousePosition.y - 300 }}
-          transition={{ type: "tween", ease: "backOut", duration: 1 }}
-          className="absolute w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] pointer-events-none hidden md:block z-0"
-        />
-      }
-    >
-      <div className="w-full h-[85%] flex flex-col lg:flex-row items-center gap-12 lg:gap-16 relative z-10 pt-16">
+    <section className="relative w-full h-[calc(100vh-5rem)] md:h-[calc(100vh-6rem)] lg:h-[calc(100vh-112px)] min-h-[600px] overflow-hidden font-sans">
+      {/* Background Elements */}
+      <motion.div
+        animate={{ x: mousePosition.x - 300, y: mousePosition.y - 300 }}
+        transition={{ type: "tween", ease: "backOut", duration: 1 }}
+        className="absolute w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] pointer-events-none hidden md:block z-0"
+      />
+
+      <div className="container mx-auto px-6 lg:px-8 h-full flex items-center">
+        <div className="w-full h-full lg:h-[85%] flex flex-col lg:flex-row items-center gap-12 lg:gap-16 relative z-10 pt-8 lg:pt-16 pb-12 lg:pb-0">
 
           {/* ── Left: content ── */}
           <div className="flex flex-col justify-center flex-1">
@@ -153,6 +151,7 @@ export function HeroSection() {
           </div>
 
         </div>
-    </ContainerLayout>
+      </div>
+    </section>
   );
 }

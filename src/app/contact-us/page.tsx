@@ -148,7 +148,7 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white font-sans py-24">
+    <div className="min-h-screen  font-sans">
       {/* Grid background pattern */}
       <div
         className="absolute inset-0 pointer-events-none"

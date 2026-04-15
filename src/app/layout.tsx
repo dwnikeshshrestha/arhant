@@ -48,11 +48,13 @@ export default function RootLayout({
           enableSystem={false}
         >
           <main
-            className="min-h-screen bg-background text-foreground selection:bg-primary selection:text-white"
+            className="min-h-screen flex flex-col bg-background text-foreground selection:bg-primary selection:text-white"
           >
             <Navbar />
 
-            {children}
+            <div className="flex-1 pt-20 md:pt-24 lg:pt-[112px]">
+              {children}
+            </div>
             <Footer />
           </main>
         </ThemeProvider>

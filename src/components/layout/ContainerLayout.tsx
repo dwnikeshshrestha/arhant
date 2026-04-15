@@ -11,7 +11,7 @@ interface ContainerLayoutProps extends React.HTMLAttributes<HTMLDivElement> {
 const ContainerLayout = forwardRef<HTMLElement, ContainerLayoutProps>(
   ({ children, className, innerClassName, backgroundElements, ...props }, ref) => {
     return (
-      <section ref={ref} className={cn("w-full py-24 scroll-mt-24 font-sans", className)} {...props}>
+      <section ref={ref} className={cn("w-full py-16 md:py-20 lg:py-24 scroll-mt-24 font-sans", className)} {...props}>
         {backgroundElements}
         <div className={cn("container mx-auto px-6 lg:px-8", innerClassName)}>
           {children}

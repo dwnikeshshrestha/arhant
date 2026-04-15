@@ -34,56 +34,7 @@ export function Footer() {
               The Best Insurance Software Provider in Nepal, delivering robust,
               flexible, and scalable digital solutions.
             </p>
-            <div className="flex items-center gap-3">
-              <a
-                href="https://www.facebook.com/arhantsolutions"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex hover:opacity-70 transition-opacity duration-300"
-                aria-label="Facebook"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 100 100"
-                  className="w-8 h-8"
-                >
-                  <path
-                    d="M50 2.5c-58.892 1.725-64.898 84.363-7.46 95h14.92c57.451-10.647 51.419-93.281-7.46-95z"
-                    fill="#1877F2"
-                  />
-                  <path
-                    d="M57.46 64.104h11.125l2.117-13.814H57.46v-8.965c0-3.779 1.85-7.463 7.781-7.463h6.021V22.101c-12.894-2.323-28.385-1.616-28.722 17.66V50.29H30.417v13.814H42.54V97.5h14.92z"
-                    fill="#fff"
-                  />
-                </svg>
-              </a>
-              <a
-                href="https://www.linkedin.com/company/arhant-solutions-pvt-ltd"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex hover:opacity-70 transition-opacity duration-300"
-                aria-label="LinkedIn"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 152 152"
-                  className="w-8 h-8"
-                >
-                  <circle cx={76} cy={76} r={76} fill="#0A66C2" />
-                  <g fill="#fff">
-                    <path d="M59 48.37A10.38 10.38 0 1 1 48.63 38 10.38 10.38 0 0 1 59 48.37z" />
-                    <rect
-                      width="16.06"
-                      height="50.93"
-                      x="40.6"
-                      y="63.07"
-                      rx="2.57"
-                    />
-                    <path d="M113.75 89.47v22.17a2.36 2.36 0 0 1-2.36 2.36H99.67a2.36 2.36 0 0 1-2.36-2.36V90.16c0-3.21.93-14-8.38-14-7.22 0-8.69 7.42-9 10.75v24.78a2.36 2.36 0 0 1-2.34 2.31H66.25a2.35 2.35 0 0 1-2.36-2.36v-46.2a2.36 2.36 0 0 1 2.36-2.37h11.34A2.37 2.37 0 0 1 80 65.44v4c2.68-4 6.66-7.12 15.13-7.12 18.73-.01 18.62 17.52 18.62 27.15z" />
-                  </g>
-                </svg>
-              </a>
-            </div>
+
           </div>
 
           <div>
@@ -184,14 +135,65 @@ export function Footer() {
             &copy; {new Date().getFullYear()} Arhant Solutions Pvt. Ltd. All
             rights reserved.
           </p>
-          <a
+
+          <div className="flex items-center gap-3">
+            <a
+              href="https://www.facebook.com/arhantsolutions"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex hover:opacity-70 transition-opacity duration-300"
+              aria-label="Facebook"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 100 100"
+                className="w-8 h-8"
+              >
+                <path
+                  d="M50 2.5c-58.892 1.725-64.898 84.363-7.46 95h14.92c57.451-10.647 51.419-93.281-7.46-95z"
+                  fill="#1877F2"
+                />
+                <path
+                  d="M57.46 64.104h11.125l2.117-13.814H57.46v-8.965c0-3.779 1.85-7.463 7.781-7.463h6.021V22.101c-12.894-2.323-28.385-1.616-28.722 17.66V50.29H30.417v13.814H42.54V97.5h14.92z"
+                  fill="#fff"
+                />
+              </svg>
+            </a>
+            <a
+              href="https://www.linkedin.com/company/arhant-solutions-pvt-ltd"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex hover:opacity-70 transition-opacity duration-300"
+              aria-label="LinkedIn"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 152 152"
+                className="w-8 h-8"
+              >
+                <circle cx={76} cy={76} r={76} fill="#0A66C2" />
+                <g fill="#fff">
+                  <path d="M59 48.37A10.38 10.38 0 1 1 48.63 38 10.38 10.38 0 0 1 59 48.37z" />
+                  <rect
+                    width="16.06"
+                    height="50.93"
+                    x="40.6"
+                    y="63.07"
+                    rx="2.57"
+                  />
+                  <path d="M113.75 89.47v22.17a2.36 2.36 0 0 1-2.36 2.36H99.67a2.36 2.36 0 0 1-2.36-2.36V90.16c0-3.21.93-14-8.38-14-7.22 0-8.69 7.42-9 10.75v24.78a2.36 2.36 0 0 1-2.34 2.31H66.25a2.35 2.35 0 0 1-2.36-2.36v-46.2a2.36 2.36 0 0 1 2.36-2.37h11.34A2.37 2.37 0 0 1 80 65.44v4c2.68-4 6.66-7.12 15.13-7.12 18.73-.01 18.62 17.52 18.62 27.15z" />
+                </g>
+              </svg>
+            </a>
+          </div>
+          {/* <a
             href="http://www.arhant.com.np"
             target="_blank"
             rel="noopener noreferrer"
             className="text-foreground/40 hover:text-foreground transition-colors text-sm font-sans"
           >
             www.arhant.com.np
-          </a>
+          </a> */}
         </div>
       </ContainerLayout>
     </footer>
