@@ -64,7 +64,7 @@ export function HeroSection() {
               <Button size="lg" className="gap-2">
                 Get Started <ArrowRight className="w-4 h-4" />
               </Button>
-              <Button size="lg" variant="outline">
+              <Button size="lg" variant="outline">  
                 View Our Work
               </Button>
             </motion.div>
