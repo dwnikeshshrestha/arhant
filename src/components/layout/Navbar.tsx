@@ -39,31 +39,50 @@ const socialLinks = [
 
 const navItems = [
   { title: "About Us", link: "/about" },
-  { title: "Solutions", link: "/solutions" },
   { title: "Our Work", link: "/our/work" },
   { title: "Blog", link: "/blogs" },
   { title: "Contact", link: "/contact-us" },
 ];
+
+type SolutionItem = { title: string; tagline: string; slug: string; gradient: string };
 
 export function Navbar() {
   const { scrollY } = useScroll();
   const [hidden, setHidden] = React.useState(false);
   const [scrolled, setScrolled] = React.useState(false);
   const [menuOpen, setMenuOpen] = React.useState(false);
+  const [solutionsOpen, setSolutionsOpen] = React.useState(false);
+  const [mobileSolutionsOpen, setMobileSolutionsOpen] = React.useState(false);
+  const dropdownRef = React.useRef<HTMLDivElement>(null);
+  const [solutionItems, setSolutionItems] = React.useState<SolutionItem[]>([]);
 
-  // Lock body scroll when menu is open
+  React.useEffect(() => {
+    import("@/lib/solutions-data").then(({ solutions }) => {
+      setSolutionItems(
+        solutions.map((s) => ({ title: s.title, tagline: s.tagline, slug: s.slug, gradient: s.gradient }))
+      );
+    });
+  }, []);
+
   React.useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
   }, [menuOpen]);
 
+  React.useEffect(() => {
+    function handler(e: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setSolutionsOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+
   useMotionValueEvent(scrollY, "change", (latest) => {
     const previous = scrollY.getPrevious() ?? 0;
-    if (latest > previous && latest > 150) {
-      setHidden(true);
-    } else {
-      setHidden(false);
-    }
+    if (latest > previous && latest > 150) setHidden(true);
+    else setHidden(false);
     setScrolled(latest > 50);
   });
 
@@ -82,42 +101,98 @@ export function Navbar() {
         <div className="container mx-auto px-6 h-20 flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center group" onClick={() => setMenuOpen(false)}>
-            <Image
-              src="/arhant-logo-black-new.png"
-              alt="Arhant Solutions Logo"
-              width={160}
-              height={50}
-              className="h-10 w-auto object-contain transition-transform group-hover:scale-105 block dark:hidden"
-              priority
-            />
-            <Image
-              src="/arhant-logo-white.png"
-              alt="Arhant Solutions Logo"
-              width={160}
-              height={50}
-              className="h-10 w-auto object-contain transition-transform group-hover:scale-105 hidden dark:block"
-              priority
-            />
+            <Image src="/arhant-logo-black-new.png" alt="Arhant Solutions Logo" width={160} height={50}
+              className="h-10 w-auto object-contain transition-transform group-hover:scale-105 block dark:hidden" priority />
+            <Image src="/arhant-logo-white.png" alt="Arhant Solutions Logo" width={160} height={50}
+              className="h-10 w-auto object-contain transition-transform group-hover:scale-105 hidden dark:block" priority />
           </Link>
 
           {/* Desktop nav */}
           <div className="flex items-center gap-6">
             <nav className="hidden md:flex items-center gap-8">
-              {navItems.map((item) => (
+
+              {/* Solutions dropdown */}
+              <div
+                ref={dropdownRef}
+                className="relative"
+                onMouseEnter={() => setSolutionsOpen(true)}
+                onMouseLeave={() => setSolutionsOpen(false)}
+              >
                 <Link
-                  key={item.link}
-                  href={item.link}
-                  className="text-sm font-medium text-foreground/75 hover:text-primary transition-colors"
+                  href="/solutions"
+                  className={`flex items-center gap-1 text-sm font-medium transition-colors ${
+                    solutionsOpen ? "text-primary" : "text-foreground/75 hover:text-primary"
+                  }`}
                 >
+                  Solutions
+                  <motion.svg
+                    animate={{ rotate: solutionsOpen ? 180 : 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="w-3.5 h-3.5 opacity-60"
+                    viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5}
+                  >
+                    <path d="m6 9 6 6 6-6" />
+                  </motion.svg>
+                </Link>
+
+                <AnimatePresence>
+                  {solutionsOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 8, scale: 0.97 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 8, scale: 0.97 }}
+                      transition={{ duration: 0.18, ease: "easeOut" }}
+                      className="absolute left-1/2 -translate-x-1/2 top-full pt-3 w-[440px]"
+                    >
+                      <div className="bg-background/98 backdrop-blur-xl border border-border rounded-2xl shadow-2xl overflow-hidden">
+                        <div className="px-5 py-4 border-b border-border/60">
+                          <p className="text-xs font-bold uppercase tracking-widest text-foreground/40">Our Platforms</p>
+                          <p className="text-sm text-foreground/60 mt-0.5">Purpose-built for every insurance segment</p>
+                        </div>
+                        <div className="p-3 flex flex-col gap-1">
+                          {solutionItems.map((sol) => (
+                            <Link
+                              key={sol.slug}
+                              href={`/solutions/${sol.slug}`}
+                              onClick={() => setSolutionsOpen(false)}
+                              className="group flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-foreground/[0.04] transition-all duration-200"
+                            >
+                              <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 bg-linear-to-br ${sol.gradient} shadow-sm`}>
+                                <div className="w-3 h-3 rounded-full bg-white/80" />
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <p className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors truncate">{sol.title}</p>
+                                <p className="text-xs text-foreground/50 truncate">{sol.tagline}</p>
+                              </div>
+                              <ArrowRight className="w-3.5 h-3.5 text-foreground/20 group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200 shrink-0" />
+                            </Link>
+                          ))}
+                        </div>
+                        <div className="px-5 py-3 bg-foreground/[0.02] border-t border-border/60">
+                          <Link
+                            href="/solutions"
+                            onClick={() => setSolutionsOpen(false)}
+                            className="flex items-center gap-1.5 text-xs font-semibold text-primary hover:gap-2.5 transition-all duration-200"
+                          >
+                            View all solutions overview <ArrowRight className="w-3 h-3" />
+                          </Link>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
+              {navItems.map((item) => (
+                <Link key={item.link} href={item.link}
+                  className="text-sm font-medium text-foreground/75 hover:text-primary transition-colors">
                   {item.title}
                 </Link>
               ))}
             </nav>
 
-            {/* Theme customizer */}
             <ThemeCustomizer />
 
-            {/* Mobile hamburger */}
             <button
               onClick={() => setMenuOpen((v) => !v)}
               className="md:hidden p-2 rounded-full hover:bg-foreground/10 transition-colors text-foreground"
@@ -125,25 +200,13 @@ export function Navbar() {
             >
               <AnimatePresence mode="wait" initial={false}>
                 {menuOpen ? (
-                  <motion.span
-                    key="close"
-                    initial={{ rotate: -90, opacity: 0 }}
-                    animate={{ rotate: 0, opacity: 1 }}
-                    exit={{ rotate: 90, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                    className="flex"
-                  >
+                  <motion.span key="close" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }}
+                    exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.2 }} className="flex">
                     <X className="w-5 h-5" />
                   </motion.span>
                 ) : (
-                  <motion.span
-                    key="menu"
-                    initial={{ rotate: 90, opacity: 0 }}
-                    animate={{ rotate: 0, opacity: 1 }}
-                    exit={{ rotate: -90, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                    className="flex"
-                  >
+                  <motion.span key="menu" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }}
+                    exit={{ rotate: -90, opacity: 0 }} transition={{ duration: 0.2 }} className="flex">
                     <Menu className="w-5 h-5" />
                   </motion.span>
                 )}
@@ -153,7 +216,7 @@ export function Navbar() {
         </div>
       </motion.header>
 
-      {/* Mobile menu overlay */}
+      {/* Mobile menu */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
@@ -164,71 +227,74 @@ export function Navbar() {
             transition={{ duration: 0.3, ease: "easeOut" }}
             className="fixed inset-0 z-40 flex flex-col md:hidden bg-background/98 backdrop-blur-xl pt-20"
           >
-            {/* Nav links */}
-            <nav className="flex flex-col flex-1 justify-center px-8 gap-2">
-              {navItems.map((item, i) => (
-                <motion.div
-                  key={item.link}
-                  initial={{ opacity: 0, x: -24 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.3, delay: 0.05 + i * 0.06, ease: "easeOut" }}
+            <nav className="flex flex-col flex-1 justify-center px-8 gap-1 overflow-y-auto">
+              <motion.div
+                initial={{ opacity: 0, x: -24 }} animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.3, delay: 0.05, ease: "easeOut" }}
+              >
+                <button
+                  onClick={() => setMobileSolutionsOpen((v) => !v)}
+                  className="group flex items-center justify-between w-full py-4 border-b border-border/50"
                 >
-                  <Link
-                    href={item.link}
-                    onClick={() => setMenuOpen(false)}
-                    className="group flex items-center justify-between py-4 border-b border-border/50 last:border-0"
-                  >
-                    <span className="text-2xl font-heading font-semibold text-foreground group-hover:text-primary transition-colors">
-                      {item.title}
-                    </span>
-                    <span className="text-foreground/30 group-hover:text-primary transition-colors text-lg">
-                      →
-                    </span>
+                  <span className="text-2xl font-heading font-semibold text-foreground group-hover:text-primary transition-colors">Solutions</span>
+                  <motion.span animate={{ rotate: mobileSolutionsOpen ? 90 : 0 }} transition={{ duration: 0.2 }}
+                    className="text-foreground/30 text-lg">→</motion.span>
+                </button>
+                <AnimatePresence>
+                  {mobileSolutionsOpen && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.25 }} className="overflow-hidden"
+                    >
+                      <div className="py-2 pl-4 flex flex-col gap-1">
+                        {solutionItems.map((sol) => (
+                          <Link key={sol.slug} href={`/solutions/${sol.slug}`} onClick={() => setMenuOpen(false)}
+                            className="group flex items-center justify-between py-2.5 text-foreground/70 hover:text-primary transition-colors">
+                            <span className="text-base font-medium">{sol.title}</span>
+                            <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                          </Link>
+                        ))}
+                        <Link href="/solutions" onClick={() => setMenuOpen(false)}
+                          className="mt-1 text-xs font-semibold text-primary flex items-center gap-1 py-1">
+                          All Solutions <ArrowRight className="w-3 h-3" />
+                        </Link>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+
+              {navItems.map((item, i) => (
+                <motion.div key={item.link} initial={{ opacity: 0, x: -24 }} animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.3, delay: 0.08 + i * 0.06, ease: "easeOut" }}>
+                  <Link href={item.link} onClick={() => setMenuOpen(false)}
+                    className="group flex items-center justify-between py-4 border-b border-border/50 last:border-0">
+                    <span className="text-2xl font-heading font-semibold text-foreground group-hover:text-primary transition-colors">{item.title}</span>
+                    <span className="text-foreground/30 group-hover:text-primary transition-colors text-lg">→</span>
                   </Link>
                 </motion.div>
               ))}
             </nav>
 
-            {/* CTA */}
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: 0.33, ease: "easeOut" }}
-              className="px-8 pt-6"
-            >
-              <Link
-                href="/contact-us"
-                onClick={() => setMenuOpen(false)}
-                className="flex items-center justify-center gap-2 w-full py-4 rounded-2xl bg-primary text-primary-foreground font-semibold text-base hover:opacity-90 transition-opacity"
-              >
+            <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: 0.33, ease: "easeOut" }} className="px-8 pt-6">
+              <Link href="/contact-us" onClick={() => setMenuOpen(false)}
+                className="flex items-center justify-center gap-2 w-full py-4 rounded-2xl bg-primary text-primary-foreground font-semibold text-base hover:opacity-90 transition-opacity">
                 Get in Touch <ArrowRight className="w-4 h-4" />
               </Link>
             </motion.div>
 
-            {/* Bottom bar */}
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
+            <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: 0.4, ease: "easeOut" }}
-              className="px-8 pb-10 pt-6 flex items-center justify-between border-t border-border/40 mt-6"
-            >
-              {/* Social links */}
+              className="px-8 pb-10 pt-6 flex items-center justify-between border-t border-border/40 mt-6">
               <div className="flex items-center gap-1">
                 {socialLinks.map(({ label, svg, href }) => (
-                  <a
-                    key={label}
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={label}
-                    className="p-2.5 rounded-full border border-border/60 hover:border-primary hover:text-primary text-foreground/60 transition-colors"
-                  >
+                  <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label}
+                    className="p-2.5 rounded-full border border-border/60 hover:border-primary hover:text-primary text-foreground/60 transition-colors">
                     {svg}
                   </a>
                 ))}
               </div>
-
-              {/* Theme customizer */}
               <ThemeCustomizer />
             </motion.div>
           </motion.div>

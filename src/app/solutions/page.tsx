@@ -1,184 +1,15 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
-import {
-  Activity,
-  ArrowRight,
-  CheckCircle2,
-  Layers,
-  ShieldCheck,
-  Users,
-  BarChart3,
-  FileText,
-  RefreshCw,
-  Settings,
-  Zap,
-  Globe,
-  Phone,
-} from "lucide-react";
+import { ArrowRight, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { PageLayout, PageHero, PageSection } from "@/components/layout/PageLayout";
 import DescriptionTypography from "@/components/DescriptionTypography";
 import { Button } from "@/components/ui/Button";
+import { solutions, type SolutionId, type Solution } from "@/lib/solutions-data";
 
-// ─── Types ──────────────────────────────────────────────────────────────────
-type SolutionId = "life" | "general" | "aggregator" | "micro";
-
-interface Feature {
-  icon: React.ElementType;
-  label: string;
-  description: string;
-}
-
-interface Stat {
-  value: string;
-  label: string;
-}
-
-interface ClientLogo {
-  name: string;
-  initials: string;
-}
-
-interface Solution {
-  id: SolutionId;
-  title: string;
-  tagline: string;
-  description: string;
-  icon: React.ElementType;
-  gradient: string;
-  glowColor: string;
-  accentLight: string;
-  badge: string;
-  features: Feature[];
-  stats: Stat[];
-  clients: ClientLogo[];
-}
-
-// ─── Data ────────────────────────────────────────────────────────────────────
-const solutions: Solution[] = [
-  {
-    id: "life",
-    title: "Life Insurance Platform",
-    tagline: "End-to-end automation for life & health portfolios",
-    description:
-      "Our Life Insurance Platform delivers complete policy lifecycle management — from new business and underwriting to claims settlement and reinsurance. Built for scalability, it handles millions of policies with enterprise-grade reliability.",
-    icon: Activity,
-    gradient: "from-blue-600 to-indigo-600",
-    glowColor: "#1d4ed8",
-    accentLight: "bg-blue-500/10",
-    badge: "Life & Health",
-    features: [
-      { icon: FileText, label: "Policy Administration", description: "Full lifecycle management from issuance to maturity" },
-      { icon: ShieldCheck, label: "Underwriting Engine", description: "Rules-based and AI-assisted risk evaluation" },
-      { icon: RefreshCw, label: "Claims Management", description: "Automated claims intake, assessment and settlement" },
-      { icon: BarChart3, label: "Reporting & Analytics", description: "Real-time dashboards and regulatory reports" },
-      { icon: Settings, label: "Product Configurator", description: "No-code product builder for rapid market launch" },
-      { icon: Zap, label: "Accounting Module", description: "Premium accounting, reconciliation and audit trails" },
-    ],
-    stats: [
-      { value: "12,490", label: "Active Policies" },
-      { value: "+14.2%", label: "YoY Growth" },
-      { value: "99.9%", label: "Uptime SLA" },
-    ],
-    clients: [
-      { name: "Nepal Life Insurance", initials: "NLI" },
-      { name: "Life Insurance Corporation", initials: "LIC" },
-      { name: "National Life", initials: "NL" },
-    ],
-  },
-  {
-    id: "general",
-    title: "General Insurance Suite",
-    tagline: "Flexible non-life platform for complex portfolios",
-    description:
-      "A highly configurable non-life insurance management system that powers motor, fire, marine, health and liability lines. Our configurable product engine lets you launch new products without writing a single line of code.",
-    icon: ShieldCheck,
-    gradient: "from-orange-500 to-red-600",
-    glowColor: "#ea580c",
-    accentLight: "bg-orange-500/10",
-    badge: "Non-Life",
-    features: [
-      { icon: FileText, label: "Multi-Line Policy Engine", description: "Motor, fire, marine, liability and more" },
-      { icon: ShieldCheck, label: "Risk Assessment", description: "Automated surveys and risk scoring tools" },
-      { icon: RefreshCw, label: "Claims Processing", description: "Digital FNOL to settlement with SLA tracking" },
-      { icon: BarChart3, label: "Portfolio Analytics", description: "Loss ratios, combined ratios and profitability" },
-      { icon: Globe, label: "Agent Portal", description: "Self-service portal for agent quote and bind" },
-      { icon: Settings, label: "Compliance Engine", description: "Built-in regulatory reporting for NRB and IRCN" },
-    ],
-    stats: [
-      { value: "3,892", label: "Claims/day" },
-      { value: "−5.1%", label: "TAT Reduction" },
-      { value: "15+", label: "Insurer Clients" },
-    ],
-    clients: [
-      { name: "Shikhar Insurance", initials: "SI" },
-      { name: "Himalayan General", initials: "HG" },
-      { name: "Prabhu Insurance", initials: "PI" },
-    ],
-  },
-  {
-    id: "aggregator",
-    title: "Insurance Aggregator",
-    tagline: "Unified distribution gateway across all carriers",
-    description:
-      "Connect customers to multiple insurers through a single API gateway. Our aggregator platform enables real-time quote comparison, instant policy issuance and seamless data exchange across your entire distribution network.",
-    icon: Layers,
-    gradient: "from-emerald-500 to-teal-600",
-    glowColor: "#059669",
-    accentLight: "bg-emerald-500/10",
-    badge: "Distribution",
-    features: [
-      { icon: Zap, label: "Real-Time Quoting", description: "Sub-second quotes from multiple carriers simultaneously" },
-      { icon: Globe, label: "Multi-Carrier API", description: "Unified gateway with normalized data schema" },
-      { icon: FileText, label: "Instant Issuance", description: "Bind and issue policies in a single digital flow" },
-      { icon: BarChart3, label: "Conversion Analytics", description: "Funnel tracking and A/B optimization tools" },
-      { icon: ShieldCheck, label: "Fraud Detection", description: "ML-powered anomaly detection at quote stage" },
-      { icon: Settings, label: "White-Label Ready", description: "Fully brandable front-end and API layer" },
-    ],
-    stats: [
-      { value: "450ms", label: "Avg Latency" },
-      { value: "99.9%", label: "Uptime" },
-      { value: "2M+", label: "Quotes/month" },
-    ],
-    clients: [
-      { name: "eBeema", initials: "EB" },
-      { name: "InsureNepal", initials: "IN" },
-      { name: "PolicyBazaar NP", initials: "PB" },
-    ],
-  },
-  {
-    id: "micro",
-    title: "Micro Insurance Engine",
-    tagline: "Inclusive insurance for underserved markets",
-    description:
-      "Purpose-built for high-volume, low-premium micro insurance products. Our lightweight engine handles parametric triggers, mobile-first enrollment and instant payouts — making insurance accessible to the last mile.",
-    icon: Users,
-    gradient: "from-purple-500 to-fuchsia-600",
-    glowColor: "#9333ea",
-    accentLight: "bg-purple-500/10",
-    badge: "Inclusive Finance",
-    features: [
-      { icon: Phone, label: "Mobile-First Enrollment", description: "Feature phone and smartphone compatible USSD/app flows" },
-      { icon: Zap, label: "Parametric Triggers", description: "Automated payouts based on index or weather data" },
-      { icon: RefreshCw, label: "Instant Claims", description: "Zero-paperwork, instant settlement to mobile wallets" },
-      { icon: Globe, label: "Multi-Language", description: "Nepali, English and regional language support" },
-      { icon: BarChart3, label: "Outreach Analytics", description: "Enrollment funnels, geographic heat-maps" },
-      { icon: Settings, label: "Partner API", description: "MFI, cooperative and NGO integration toolkit" },
-    ],
-    stats: [
-      { value: "1.2M", label: "Active Users" },
-      { value: "+89K", label: "New/month" },
-      { value: "<2s", label: "Claim Payout" },
-    ],
-    clients: [
-      { name: "Grameen Bikas", initials: "GB" },
-      { name: "Rural Finance", initials: "RF" },
-      { name: "CommunityPay", initials: "CP" },
-    ],
-  },
-];
+// Data is imported from @/lib/solutions-data
 
 // ─── Section Component ───────────────────────────────────────────────────────
 function SolutionSection({
@@ -275,9 +106,9 @@ function SolutionSection({
                   Request Demo <ArrowRight className="w-4 h-4" />
                 </Button>
               </Link>
-              <Link href="/contact-us">
+              <Link href={`/solutions/${solution.slug}`}>
                 <Button variant="outline" className="gap-2">
-                  Learn More
+                  View Full Details <ArrowRight className="w-4 h-4" />
                 </Button>
               </Link>
             </div>

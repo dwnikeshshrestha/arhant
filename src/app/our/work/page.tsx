@@ -1,8 +1,15 @@
 "use client";
 
+import DescriptionTypography from "@/components/DescriptionTypography";
 import {
-  motion,
+  PageHero,
+  PageLayout,
+  PageSection,
+} from "@/components/layout/PageLayout";
+import { Tabs, TabsList } from "@/components/ui/tabs";
+import {
   AnimatePresence,
+  motion,
   useScroll,
   useTransform,
 } from "framer-motion";
@@ -10,17 +17,9 @@ import {
   ArrowRight,
   ArrowUpRight,
   Search,
-  SlidersHorizontal,
-  X,
+  X
 } from "lucide-react";
-import React, { useRef, useState, useMemo, SetStateAction } from "react";
-import {
-  PageLayout,
-  PageHero,
-  PageSection,
-} from "@/components/layout/PageLayout";
-import DescriptionTypography from "@/components/DescriptionTypography";
-import { Tabs, TabsList } from "@/components/ui/tabs";
+import { useMemo, useRef, useState } from "react";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 type Category =
