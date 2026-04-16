@@ -39,27 +39,19 @@ export function AboutSection() {
           <motion.div variants={itemVariants}>
             <h2 className="text-sm font-bold tracking-widest text-primary uppercase mb-3 flex items-center gap-2">
               <span className="w-8 h-[2px] bg-primary"></span>
-              About Us
+              Our Journey
             </h2>
-            {/* <h3 className="text-4xl md:text-5xl font-heading font-bold text-foreground mb-6 leading-tight">
-              Introducing Nepal&apos;s IT Mastery to the World.
-            </h3> */}
-            {/* <h2 className="text-3xl sm:text-4xl md:text-6xl font-bold text-foreground leading-[1.1] font-heading">
-               Introducing Nepal&apos;s  <br />
-              <span className="text-primary italic">IT Mastery to the World.</span>
-            </h2> */}
             <HeadingTypography className="mb-6">
-              Introducing{" "}
-              <span className="text-primary italic">Nepal&apos;s</span> IT
-              Mastery to the World.
+              Empowering{" "}
+              <span className="text-primary italic">Global Clients</span> with
+              Local Expertise.
             </HeadingTypography>
             <div className="space-y-6">
               <DescriptionTypography>
-                Arhant Solutions was established with the objective of
-                introducing Nepal’s highly matured IT execution capability to
-                the world. We are a rapidly expanding IT service company with
-                the goal of assisting clients with the deployment and use of
-                their enterprises.
+                We are a rapidly expanding IT service company with the goal of
+                assisting clients with the deployment and use of their
+                enterprises. Our commitment lies in bridging the gap between
+                complex technological demands and seamless execution.
               </DescriptionTypography>
               <DescriptionTypography>
                 We are devoted to offering services, mostly in the area of

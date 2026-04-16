@@ -21,12 +21,12 @@ export default function MissionSection() {
             Our mission
           </h2>
           <HeadingTypography>Mission of our company</HeadingTypography>
-          <DescriptionTypography className="text-gray-600">
+          <DescriptionTypography>
             To consistently develop IT solutions that provide our clients with a
             competitive advantage, facilitating their achievement of success
             milestones.
           </DescriptionTypography>
-          <DescriptionTypography className="text-gray-600">
+          <DescriptionTypography>
             To consistently develop IT solutions that provide our clients with a
             competitive advantage, facilitating their achievement of success
             milestones.
@@ -37,10 +37,13 @@ export default function MissionSection() {
         <div className="flex flex-col justify-center gap-8 lg:pl-8">
           {stats.map((stat) => (
             <div key={stat.value} className="flex flex-col gap-1">
-              <span className="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight leading-none">
+              <span className="text-4xl md:text-5xl font-extrabold tracking-tight leading-none">
                 {stat.value}
               </span>
-              <span className="text-sm text-gray-500">{stat.label}</span>
+              {/* <span className="text-sm ">{stat.label}</span> */}
+              <DescriptionTypography className="text-sm ">
+                {stat.label}
+              </DescriptionTypography>
             </div>
           ))}
         </div>

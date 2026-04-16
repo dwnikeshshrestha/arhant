@@ -1,22 +1,12 @@
 "use client";
 import HeadingTypography from "@/components/HeadingTypography";
-import ContainerLayout from "@/components/layout/ContainerLayout";
+import { PageLayout, PageHero, PageSection } from "@/components/layout/PageLayout";
+import DescriptionTypography from "@/components/DescriptionTypography";
 import { PinContainer } from "@/components/ui/3d-pin";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 
 const socialLinks = [
-  // {
-  //   name: "Twitter / X",
-  //   handle: "@yoursaas",
-  //   href: "https://twitter.com",
-  //   icon: (
-  //     <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
-  //       <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-  //     </svg>
-  //   ),
-  //   bg: "bg-zinc-900 hover:bg-zinc-800",
-  //   text: "text-white",
-  // },
   {
     name: "LinkedIn",
     handle: "YourSaaS",
@@ -29,18 +19,6 @@ const socialLinks = [
     bg: "bg-blue-600 hover:bg-blue-700",
     text: "text-white",
   },
-  // {
-  //   name: "GitHub",
-  //   handle: "yoursaas",
-  //   href: "https://github.com",
-  //   icon: (
-  //     <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
-  //       <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
-  //     </svg>
-  //   ),
-  //   bg: "bg-gray-800 hover:bg-gray-900",
-  //   text: "text-white",
-  // },
   {
     name: "Instagram",
     handle: "@yoursaas",
@@ -53,18 +31,6 @@ const socialLinks = [
     bg: "bg-gradient-to-br from-purple-600 via-pink-500 to-orange-400 hover:from-purple-700 hover:via-pink-600 hover:to-orange-500",
     text: "text-white",
   },
-  // {
-  //   name: "Discord",
-  //   handle: "YourSaaS Community",
-  //   href: "https://discord.com",
-  //   icon: (
-  //     <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
-  //       <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z" />
-  //     </svg>
-  //   ),
-  //   bg: "bg-indigo-500 hover:bg-indigo-600",
-  //   text: "text-white",
-  // },
 ];
 
 const contactInfo = [
@@ -127,6 +93,105 @@ const contactInfo = [
   },
 ];
 
+// ─── Hero ─────────────────────────────────────────────────────────────────────
+function ContactHero() {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+  const y = useTransform(scrollYProgress, [0, 1], [0, 60]);
+  const opacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+
+  return (
+    <PageHero ref={ref} className="pb-16">
+      {/* Background orbs */}
+      <motion.div
+        animate={{ scale: [1, 1.2, 1], x: [0, 20, 0] }}
+        transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-0 right-0 w-[600px] h-[400px] bg-primary/6 rounded-full blur-[120px] pointer-events-none"
+      />
+      <motion.div
+        animate={{ scale: [1, 1.1, 1], x: [0, -15, 0] }}
+        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 3 }}
+        className="absolute bottom-0 left-0 w-[400px] h-[300px] bg-emerald-500/5 rounded-full blur-[100px] pointer-events-none"
+      />
+
+      {/* Dot grid */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage: "radial-gradient(circle, var(--foreground) 1px, transparent 1px)",
+          backgroundSize: "32px 32px",
+          opacity: 0.03,
+        }}
+      />
+
+      {/* Large background word */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
+        <span className="text-[14vw] font-heading font-black uppercase text-foreground/[0.025] tracking-widest whitespace-nowrap">
+          CONTACT
+        </span>
+      </div>
+
+      <div className="container mx-auto px-6 lg:px-8 relative z-10">
+        <motion.div style={{ y, opacity }}>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="flex items-center gap-3 mb-6"
+          >
+            <div className="w-10 h-[2px] bg-primary rounded-full" />
+            <span className="text-primary text-xs font-bold uppercase tracking-widest">
+              Get in Touch
+            </span>
+          </motion.div>
+
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="text-4xl sm:text-5xl lg:text-7xl font-heading font-extrabold text-foreground tracking-tight leading-[1.05] mb-6 max-w-4xl"
+          >
+            Let&apos;s talk about
+            <br />
+            <span className="text-primary italic">your next project</span>
+          </motion.h1>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            <DescriptionTypography className="text-lg max-w-2xl mb-8">
+              We are always looking for ways to improve our products and services.
+              Contact us and let us know how we can help you with your insurance
+              and digital transformation needs.
+            </DescriptionTypography>
+          </motion.div>
+
+          {/* Stats bar */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="flex flex-wrap items-center gap-8 pt-8 border-t border-border/50 max-w-xl"
+          >
+            {[
+              { value: "24/7", label: "Global Support" },
+              { value: "<2h", label: "Average Response" },
+              { value: "100%", label: "Client Satisfaction" },
+            ].map((stat) => (
+              <div key={stat.label} className="flex flex-col gap-0.5">
+                <span className="text-2xl font-heading font-bold text-foreground">{stat.value}</span>
+                <span className="text-xs text-foreground/45">{stat.label}</span>
+              </div>
+            ))}
+          </motion.div>
+        </motion.div>
+      </div>
+    </PageHero>
+  );
+}
+
 export default function ContactPage() {
   const [form, setForm] = useState({
     fullName: "",
@@ -148,70 +213,38 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen  font-sans">
-      {/* Grid background pattern */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        // style={{
-        //   backgroundImage:
-        //     "linear-gradient(to right, #e5e7eb 1px, transparent 1px), linear-gradient(to bottom, #e5e7eb 1px, transparent 1px)",
-        //   backgroundSize: "32px 32px",
-        //   opacity: 0.4,
-        // }}
-      />
-
-      <ContainerLayout className="relative">
+    <PageLayout>
+      <ContactHero />
+      <PageSection id="contact-content" className="pt-0! pb-24 relative">
         <div className="grid lg:grid-cols-2 gap-16 items-start">
           {/* ── Left column ── */}
           <div>
-            {/* Icon badge */}
-            {/* <div className="mb-6 inline-flex items-center justify-center w-12 h-12 bg-white border border-gray-200 rounded-xl shadow-sm">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                className="w-6 h-6"
-                stroke="currentColor"
-                strokeWidth={1.5}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"
-                />
-              </svg>
-            </div> */}
-
-            <HeadingTypography>
-              {" "}
-              Contact <br />
-              <span className="text-primary italic">Us.</span>
-            </HeadingTypography>
-            <p className="text-gray-500 text-base leading-relaxed mb-8 max-w-sm">
-              We are always looking for ways to improve our products and
-              services. Contact us and let us know how we can help you.
-            </p>
-
             {/* Contact info */}
-            <div className="flex flex-col gap-2 mb-10">
+            <div className="flex flex-col gap-4 mb-10">
+              <h3 className="text-xl font-heading font-bold text-foreground mb-2">
+                Contact Information
+              </h3>
               {contactInfo.map((item) => (
                 <div
                   key={item.label}
-                  className="flex items-center gap-2.5 text-sm text-gray-500"
+                  className="flex items-center gap-4 text-sm text-foreground/70"
                 >
-                  <span className="text-gray-400">{item.icon}</span>
-                  <span className="text-gray-400 font-medium w-14">
-                    {item.label}
+                  <span className="w-10 h-10 flex items-center justify-center rounded-lg bg-foreground/[0.04] text-primary">
+                    {item.icon}
                   </span>
-                  <span className="text-gray-600">{item.value}</span>
+                  <div>
+                    <span className="block text-xs font-semibold text-foreground/50 uppercase tracking-wider mb-0.5">
+                      {item.label}
+                    </span>
+                    <span className="font-medium text-foreground">{item.value}</span>
+                  </div>
                 </div>
               ))}
             </div>
 
-            {/* Social links */}
-
             {/* World map SVG */}
             <div className="mt-12 relative">
-              <div className="text-xs text-gray-400 mb-1">Our location</div>
+              <div className="text-xs font-semibold text-foreground/40 uppercase tracking-widest mb-4">Our location</div>
               {/* <div className="h-[30rem] w-full flex items-center justify-center ">
                 <PinContainer
                   title="Hattisar, Kathmandu Nepal"
@@ -244,18 +277,18 @@ export default function ContactPage() {
               </div> */}
             </div>
 
-            <div>
-              <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">
+            <div className="mt-12">
+              <p className="text-xs font-semibold text-foreground/40 uppercase tracking-widest mb-4">
                 Find us on
               </p>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-3">
                 {socialLinks.map((s) => (
                   <a
                     key={s.name}
                     href={s.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-150 ${s.bg} ${s.text}`}
+                    className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 ${s.bg} ${s.text} shadow-sm hover:shadow-md hover:-translate-y-0.5`}
                   >
                     {s.icon}
                     <span>{s.name}</span>
@@ -266,27 +299,27 @@ export default function ContactPage() {
           </div>
 
           {/* ── Right column — form ── */}
-          <div className="bg-gray-50 border border-gray-200 rounded-2xl p-8 relative overflow-hidden">
+          <div className="bg-card border border-foreground/[0.08] rounded-3xl p-8 lg:p-10 relative overflow-hidden shadow-sm">
             {/* subtle dot grid on card */}
             <div
               className="absolute inset-0 pointer-events-none"
               style={{
                 backgroundImage:
-                  "radial-gradient(circle, #d1d5db 1px, transparent 1px)",
+                  "radial-gradient(circle, var(--foreground) 1px, transparent 1px)",
                 backgroundSize: "20px 20px",
-                opacity: 0.5,
+                opacity: 0.03,
               }}
             />
-            <div className="relative">
+            <div className="relative z-10">
               {submitted ? (
                 <div className="flex flex-col items-center justify-center py-16 text-center gap-4">
-                  <div className="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center">
+                  <div className="w-16 h-16 bg-green-500/10 rounded-full flex items-center justify-center">
                     <svg
                       viewBox="0 0 24 24"
                       fill="none"
-                      stroke="#16a34a"
+                      stroke="#10b981"
                       strokeWidth={2}
-                      className="w-7 h-7"
+                      className="w-8 h-8"
                     >
                       <path
                         strokeLinecap="round"
@@ -295,10 +328,10 @@ export default function ContactPage() {
                       />
                     </svg>
                   </div>
-                  <h2 className="text-xl font-semibold text-gray-800">
+                  <h2 className="text-2xl font-bold font-heading text-foreground">
                     Message sent!
                   </h2>
-                  <p className="text-gray-500 text-sm">
+                  <p className="text-foreground/60 text-sm">
                     We&apos;ll get back to you within 24 hours.
                   </p>
                   <button
@@ -311,15 +344,15 @@ export default function ContactPage() {
                         message: "",
                       });
                     }}
-                    className="mt-2 text-sm text-blue-600 hover:underline"
+                    className="mt-4 text-sm font-semibold text-primary hover:text-primary/80 transition-colors"
                   >
                     Send another message
                   </button>
                 </div>
               ) : (
-                <div className="flex flex-col gap-5">
+                <div className="flex flex-col gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                    <label className="block text-xs font-bold uppercase tracking-wider text-foreground/50 mb-2">
                       Full name
                     </label>
                     <input
@@ -327,13 +360,13 @@ export default function ContactPage() {
                       name="fullName"
                       value={form.fullName}
                       onChange={handleChange}
-                      placeholder="Manu Arora"
-                      className="w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                      placeholder="e.g. John Doe"
+                      className="w-full bg-foreground/[0.03] border border-foreground/[0.08] rounded-xl px-4 py-3 text-sm text-foreground placeholder-foreground/30 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                    <label className="block text-xs font-bold uppercase tracking-wider text-foreground/50 mb-2">
                       Email Address
                     </label>
                     <input
@@ -341,13 +374,13 @@ export default function ContactPage() {
                       name="email"
                       value={form.email}
                       onChange={handleChange}
-                      placeholder="support@aceternity.com"
-                      className="w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                      placeholder="john@company.com"
+                      className="w-full bg-foreground/[0.03] border border-foreground/[0.08] rounded-xl px-4 py-3 text-sm text-foreground placeholder-foreground/30 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                    <label className="block text-xs font-bold uppercase tracking-wider text-foreground/50 mb-2">
                       Company
                     </label>
                     <input
@@ -355,13 +388,13 @@ export default function ContactPage() {
                       name="company"
                       value={form.company}
                       onChange={handleChange}
-                      placeholder="Aceternity Labs LLC"
-                      className="w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                      placeholder="Your Company Let."
+                      className="w-full bg-foreground/[0.03] border border-foreground/[0.08] rounded-xl px-4 py-3 text-sm text-foreground placeholder-foreground/30 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                    <label className="block text-xs font-bold uppercase tracking-wider text-foreground/50 mb-2">
                       Message
                     </label>
                     <textarea
@@ -369,23 +402,23 @@ export default function ContactPage() {
                       value={form.message}
                       onChange={handleChange}
                       rows={5}
-                      placeholder="Type your message here"
-                      className="w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition resize-none"
+                      placeholder="How can we help you?"
+                      className="w-full bg-foreground/[0.03] border border-foreground/[0.08] rounded-xl px-4 py-3 text-sm text-foreground placeholder-foreground/30 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200 resize-none"
                     />
                   </div>
 
                   <button
                     onClick={handleSubmit}
-                    className="w-auto self-start bg-primary hover:bg-gray-700 active:scale-95 transition-all text-white text-sm font-semibold px-6 py-2.5 rounded-xl"
+                    className="w-full bg-primary hover:bg-primary/90 active:scale-[0.98] transition-all text-primary-foreground text-sm font-bold px-6 py-3.5 rounded-xl shadow-lg shadow-primary/20"
                   >
-                    Submit
+                    Send Message
                   </button>
                 </div>
               )}
             </div>
           </div>
         </div>
-      </ContainerLayout>
-    </div>
+      </PageSection>
+    </PageLayout>
   );
 }

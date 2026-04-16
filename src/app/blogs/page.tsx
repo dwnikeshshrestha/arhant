@@ -1,10 +1,10 @@
 "use client";
-import ContainerLayout from "@/components/layout/ContainerLayout";
-import { SectionBadge } from "@/lib/helperComponent";
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { PageLayout, PageHero, PageSection } from "@/components/layout/PageLayout";
+import React, { useState, useRef } from "react";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import { Tabs, TabsList } from "@/components/ui/tabs";
+import DescriptionTypography from "@/components/DescriptionTypography";
 
 const ALL_BLOGS = [
   {
@@ -180,6 +180,102 @@ const CATEGORIES = [
 
 const PAGE_SIZE = 10;
 
+// ─── Hero ─────────────────────────────────────────────────────────────────────
+function BlogHero() {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+  const y = useTransform(scrollYProgress, [0, 1], [0, 60]);
+  const opacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+
+  return (
+    <PageHero ref={ref} className="pb-16">
+      {/* Background orbs */}
+      <motion.div
+        animate={{ scale: [1, 1.2, 1], x: [0, 20, 0] }}
+        transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-0 right-0 w-[600px] h-[400px] bg-primary/6 rounded-full blur-[120px] pointer-events-none"
+      />
+      <motion.div
+        animate={{ scale: [1, 1.1, 1], x: [0, -15, 0] }}
+        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 3 }}
+        className="absolute bottom-0 left-0 w-[400px] h-[300px] bg-blue-500/5 rounded-full blur-[100px] pointer-events-none"
+      />
+
+      {/* Dot grid */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage: "radial-gradient(circle, var(--foreground) 1px, transparent 1px)",
+          backgroundSize: "32px 32px",
+          opacity: 0.03,
+        }}
+      />
+
+      {/* Large background word */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
+        <span className="text-[17vw] font-heading font-black uppercase text-foreground/[0.025] tracking-widest whitespace-nowrap">
+          BLOGS
+        </span>
+      </div>
+
+      <div className="container mx-auto px-6 lg:px-8 relative z-10">
+        <motion.div style={{ y, opacity }}>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="flex items-center gap-3 mb-6"
+          >
+            <div className="w-10 h-[2px] bg-primary rounded-full" />
+            <span className="text-primary text-xs font-bold uppercase tracking-widest">
+              Blog & Articles
+            </span>
+          </motion.div>
+
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="text-4xl sm:text-5xl lg:text-7xl font-heading font-extrabold text-foreground tracking-tight leading-[1.05] mb-6 max-w-4xl"
+          >
+            Insights into the <br />
+            <span className="text-primary italic">Insurance Ecosystem</span>
+          </motion.h1>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            <DescriptionTypography className="text-lg max-w-2xl mb-8">
+              Stay updated with the latest trends, technologies, and strategies shaping the future of the insurance industry.
+            </DescriptionTypography>
+          </motion.div>
+
+          {/* Stats bar */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="flex flex-wrap items-center gap-8 pt-8 border-t border-border/50 max-w-xl"
+          >
+            {[
+              { value: "50+", label: "Articles Published" },
+              { value: "10K+", label: "Monthly Readers" },
+              { value: "Weekly", label: "New Insights" },
+            ].map((stat) => (
+              <div key={stat.label} className="flex flex-col gap-0.5">
+                <span className="text-2xl font-heading font-bold text-foreground">{stat.value}</span>
+                <span className="text-xs text-foreground/45">{stat.label}</span>
+              </div>
+            ))}
+          </motion.div>
+        </motion.div>
+      </div>
+    </PageHero>
+  );
+}
+
 export default function BlogsPage() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
@@ -198,22 +294,9 @@ export default function BlogsPage() {
   }
 
   return (
-    <ContainerLayout>
-      {/* Header */}
-      <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
-        <div>
-          <SectionBadge label="Blog & Articles" />
-          <motion.h3
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="text-4xl font-heading font-bold text-foreground max-w-xl"
-          >
-            Insights into the Insurance Ecosystem
-          </motion.h3>
-        </div>
-      </div>
+    <PageLayout>
+      <BlogHero />
+      <PageSection id="blogs-grid" className="pt-0! pb-24 relative overflow-hidden">
 
       {/* Category Tabs */}
       <motion.div
@@ -307,6 +390,7 @@ export default function BlogsPage() {
           You&apos;ve reached the end &mdash; {filtered.length} articles total.
         </p>
       )}
-    </ContainerLayout>
+    </PageSection>
+    </PageLayout>
   );
 }

@@ -55,12 +55,16 @@ export default function OurValues() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-10">
         {values.map((value) => (
           <div key={value.title}>
-            <h3 className="font-semibold text-gray-900 text-sm mb-2">
+            <h3 className="font-semibold text-sm mb-2">
               {value.title}
             </h3>
-            <p className="text-gray-500 text-sm leading-relaxed">
+            {/* <p className="text-gray-500 text-sm leading-relaxed">
               {value.description}
-            </p>
+            </p> */}
+              <DescriptionTypography className="text-sm ">
+              {value.description}
+
+</DescriptionTypography>
           </div>
         ))}
       </div>
