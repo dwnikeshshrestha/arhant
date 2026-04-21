@@ -23,8 +23,7 @@ export const metadata: Metadata = {
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { ColorThemeProvider } from "@/contexts/ColorThemeContext";
 import { cn } from "@/lib/utils";
-import { Navbar } from "@/components/layout/Navbar";
-import { Footer } from "@/components/layout/Footer";
+import { SessionProvider } from "@/components/SessionProvider";
 
 export default function RootLayout({
   children,
@@ -43,6 +42,7 @@ export default function RootLayout({
       )}
     >
       <body className="min-h-full flex flex-col font-sans transition-colors duration-300">
+        <SessionProvider>
         <ThemeProvider
           attribute="class"
           defaultTheme="light"
@@ -52,15 +52,11 @@ export default function RootLayout({
             <main
               className="min-h-screen flex flex-col bg-background text-foreground selection:bg-primary selection:text-white"
             >
-              <Navbar />
-
-              <div className="flex-1 pt-20 md:pt-24 lg:pt-[112px]">
-                {children}
-              </div>
-              <Footer />
+              {children}
             </main>
           </ColorThemeProvider>
         </ThemeProvider>
+        </SessionProvider>
       </body>
     </html>
   );

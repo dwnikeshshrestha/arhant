@@ -35,7 +35,7 @@ const FEATURE_HIGHLIGHTS = [
 // ─── Data ──────────────────────────────────────────────────────────────
 const imageMap: Record<SolutionId, string> = {
   life: "/assets/our-solutions/lifeInsurance.png",
-  general: "/assets/our-solutions/non-lifeInsurance.png",
+  general: "/assets/our-solutions/nonLife.png",
   aggregator: "/assets/our-solutions/insuranceAggregator.png",
   micro: "/assets/our-solutions/lifeInsurance.png",
 };
