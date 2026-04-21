@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "Bash(node database/test-connection.mjs)"
+      "Bash(node database/test-connection.mjs)",
+      "Bash(npx next *)"
     ]
   }
 }
