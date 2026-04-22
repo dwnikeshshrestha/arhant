@@ -1,8 +1,6 @@
 "use client";
-import HeadingTypography from "@/components/HeadingTypography";
 import { PageLayout, PageHero, PageSection } from "@/components/layout/PageLayout";
 import DescriptionTypography from "@/components/DescriptionTypography";
-import { PinContainer } from "@/components/ui/3d-pin";
 import { useState, useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 

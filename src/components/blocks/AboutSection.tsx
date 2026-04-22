@@ -1,11 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Target, Lightbulb } from "lucide-react";
 import Image from "next/image";
 import MissionSection from "./MissionSection";
 import HeadingTypography from "../HeadingTypography";
-import ContainerLayout from "../layout/ContainerLayout";
 import DescriptionTypography from "../DescriptionTypography";
 
 export function AboutSection() {

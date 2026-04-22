@@ -19,6 +19,7 @@ import {
   Search,
   X
 } from "lucide-react";
+import Link from "next/link";
 import { useMemo, useRef, useState } from "react";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
@@ -541,18 +542,18 @@ export default function OurWorkPage() {
             </DescriptionTypography>
           </div>
           <div className="relative z-10 flex flex-wrap gap-3 justify-center">
-            <a
+            <Link
               href="/contact-us"
               className="flex items-center gap-2 px-6 py-3 rounded-2xl bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 active:scale-95 transition-all duration-200 shadow-lg shadow-primary/20"
             >
               Start a Project <ArrowRight className="w-4 h-4" />
-            </a>
-            <a
+            </Link>
+            <Link
               href="/solutions"
               className="flex items-center gap-2 px-6 py-3 rounded-2xl bg-foreground/[0.06] border border-foreground/[0.10] text-foreground text-sm font-semibold hover:bg-foreground/[0.10] active:scale-95 transition-all duration-200"
             >
               View Solutions
-            </a>
+            </Link>
           </div>
         </motion.div>
       </PageSection>

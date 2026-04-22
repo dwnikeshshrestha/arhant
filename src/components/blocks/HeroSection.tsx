@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/Button";
 import { ArrowRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import ContainerLayout from "../layout/ContainerLayout";
 import DescriptionTypography from "../DescriptionTypography";
 
 export function HeroSection() {

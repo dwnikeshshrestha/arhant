@@ -16,8 +16,6 @@ import {
   getSolutionBySlug,
   type Solution,
 } from "@/lib/solutions-data";
-import { ContainerScroll } from "../ui/container-scroll-animation";
-import Image from "next/image";
 
 // ─── Hero ─────────────────────────────────────────────────────────────────────
 function SolutionHero({ solution }: { solution: Solution }) {
@@ -158,34 +156,7 @@ function SolutionHero({ solution }: { solution: Solution }) {
   );
 }
 
-function ScrollablePreview() {
-  return (
-    <div className="flex flex-col overflow-hidden">
-      <ContainerScroll
-        titleComponent={<></>}
-      >
-        {/* <img
-          src={`/linear.webp`}
-          alt="hero"
-          height={720}
-          width={1400}
-          className="mx-auto rounded-2xl object-cover h-full object-left-top"
-          draggable={false}
-        /> */}
 
-        <Image
-          src="/assets/our-solutions/lifeInsurance.png"
-          alt="life insurance preview"
-          height={720}
-          width={1400}
-          className="mx-auto rounded-2xl object-cover h-full object-left-top"
-          // priority={i === 0}
-          sizes="(max-width: 1024px) 100vw, 60vw"
-        />
-      </ContainerScroll>
-    </div>
-  );
-}
 // ─── Features Grid ────────────────────────────────────────────────────────────
 function FeaturesSection({ solution }: { solution: Solution }) {
   return (

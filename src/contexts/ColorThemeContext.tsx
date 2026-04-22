@@ -161,7 +161,11 @@ export function ColorThemeProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [colorTheme, setColorThemeState] = useState("light");
+  const [colorTheme, setColorThemeState] = useState(() =>
+    typeof window !== "undefined"
+      ? (localStorage.getItem("color-theme") ?? "light")
+      : "light",
+  );
   const { setTheme } = useTheme();
 
   const applyColorTheme = useCallback(
@@ -187,10 +191,9 @@ export function ColorThemeProvider({
 
   // Restore persisted theme on mount
   useEffect(() => {
-    const saved = localStorage.getItem("color-theme") ?? "light";
-    setColorThemeState(saved);
-    applyColorTheme(saved);
-  }, [applyColorTheme]);
+    applyColorTheme(colorTheme);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const setColorTheme = useCallback(
     (key: string) => {

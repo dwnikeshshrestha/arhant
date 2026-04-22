@@ -79,11 +79,6 @@ export default async function BlogDetailPage({ params }: Props) {
     year: "numeric",
   });
 
-  const pageUrl =
-    typeof window === "undefined"
-      ? `${process.env.NEXTAUTH_URL ?? "http://localhost:3000"}/blogs/${slug}`
-      : window.location.href;
-
   return (
     <PageLayout>
       {/* ── Hero ─────────────────────────────────────────────────────── */}

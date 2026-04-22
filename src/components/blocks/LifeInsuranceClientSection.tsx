@@ -10,35 +10,6 @@ import DescriptionTypography from "../DescriptionTypography";
 
 // ─── Data ──────────────────────────────────────────────────────────────────────
 
-const GENERAL_CLIENTS = [
-  { src: "/assets/clients/AJOD-insurance.jpg", name: "AJOD Insurance" },
-  { src: "/assets/clients/NLG.jpg", name: "NLG Insurance" },
-  {
-    src: "/assets/clients/himalayan-general-insurance 1.png",
-    name: "Himalayan General",
-  },
-  { src: "/assets/clients/ime-general-insurance 1.png", name: "IME General" },
-  { src: "/assets/clients/national-insurance.jpg", name: "National Insurance" },
-  {
-    src: "/assets/clients/lumbini-general-insurance-company.jpg",
-    name: "Lumbini General",
-  },
-  { src: "/assets/clients/premier-insurance 1.png", name: "Premier Insurance" },
-  { src: "/assets/clients/shikhar.png", name: "Shikhar Insurance" },
-  {
-    src: "/assets/clients/siddhartha-insurance.jpg",
-    name: "Siddhartha Insurance",
-  },
-  { src: "/assets/clients/united-insurance 1.png", name: "United Insurance" },
-  {
-    src: "/assets/clients/prudential-insurance.png",
-    name: "Prudential Insurance",
-  },
-  { src: "/assets/clients/gic.png", name: "GIC" },
-  { src: "/assets/clients/oriental-insurance.png", name: "Oriental Insurance" },
-  { src: "/assets/clients/rastriya-beema-company.png", name: "Rastriya Beema" },
-  { src: "/assets/clients/sanima.png", name: "Sanima General" },
-];
 
 const LIFE_CLIENTS = [
   {
@@ -58,33 +29,6 @@ const LIFE_CLIENTS = [
   { src: "/assets/clients/union-life-insurance 1.png", name: "Union Life" },
 ];
 
-const TECH_PARTNERS = [
-  { src: "/assets/tech-partner/DanLogo.png", name: "Dan IT" },
-  { src: "/assets/tech-partner/NCHL-Logo.png", name: "NCHL" },
-  { src: "/assets/tech-partner/cell-pay.png", name: "CellPay" },
-  { src: "/assets/tech-partner/esewa_logo.png", name: "eSewa" },
-  { src: "/assets/tech-partner/ime-pay.png", name: "IME Pay" },
-  { src: "/assets/tech-partner/npx.png", name: "NPX" },
-  { src: "/assets/tech-partner/palmmind-logo.webp", name: "Palmmind" },
-  { src: "/assets/tech-partner/thegana.svg", name: "The Gana" },
-];
-const projects = [
-  {
-    title: "15",
-    description: "Non-Life Insurance Companies",
-    link: "https://stripe.com",
-  },
-  {
-    title: "83%",
-    description: "Nepal Non-Life Market Coverage",
-    link: "https://netflix.com",
-  },
-  {
-    title: "18",
-    description: "Total Non-Life Companies in Nepal",
-    link: "https://google.com",
-  },
-];
 const projectsLife = [
   {
     title: "9",
@@ -194,7 +138,6 @@ function ClientLogoGrid({
 // ─── Main Component ────────────────────────────────────────────────────────────
 
 export default function LifeInsuranceClientSection() {
-  const primaryOrange = "hsl(24 100% 50%)";
   const primaryBlue = "hsl(217 91% 55%)";
 
   return (

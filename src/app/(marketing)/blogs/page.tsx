@@ -125,11 +125,12 @@ export default function BlogsPage() {
   }, []);
 
   useEffect(() => {
-    setPage(1);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchBlogs(activeCategory, 1, false);
   }, [activeCategory, fetchBlogs]);
 
   function handleCategoryChange(cat: string) {
+    setPage(1);
     setActiveCategory(cat);
   }
 
